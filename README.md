@@ -1,7 +1,9 @@
-# ACL (Code will be added from May 15th)
+# ACL
 Adapted Caldeira-Legget Model
 
 [![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](https://unitary.fund)
+
+(Code will be added by May 15th. This project will be based on code that has already been written for a personnal project of mine, once adapted it will be added to this repro.)
 
 This repository contains an open-source quantum decoherence model implemented using Qutip, to simulate the Adapted Caldeira-Legget model and provide a suite of tools for studying quantum decoherence phenomena.
 
