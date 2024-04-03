@@ -14,9 +14,13 @@ This repository offers a computational implementation of the ACL model using Qut
 # Features
 
 ACL Model Simulation: Generate unitary evolution of an interacting system + environment depending on relavant ACL parameters.
+
 Analyze the effects of decoherence: visualize apparent collapse, capture Schmidt states convergence to Pointer states, see splitting of total energy eigenspaces, VN entropy growths, ...
+
 Visualization Tools: See the dynamics of your system via generation of videos.
+
 Modular Design: The codebase is designed with modularity in mind, allowing easy extension and customization for specific research needs.
+
 Documentation and Examples: Comprehensive documentation and example scripts are provided to facilitate usage and understanding of the model and its capabilities.
 
 
