@@ -7,6 +7,7 @@ Adapted Caldeira-Legget Model
 
 This repository contains an open-source quantum decoherence model implemented using Qutip, to simulate the Adapted Caldeira-Legget model and provide a suite of tools for studying quantum decoherence phenomena.
 
+
 # Overview
 
 Quantum decoherence is a crucial concept in quantum mechanics, describing the process by which a quantum system loses coherence due to interactions with its environment. The ACL model is a very useful toy model for stying the phenomena from a theoretical and numerical framework.
