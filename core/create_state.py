@@ -2,7 +2,7 @@ import numpy as np
 import qutip as qt
 import math
 
-def create_H(d1,d2, H_e_self,w=[0]):
+def create_state(d1,d2, H_e_self,w):
     
     #We give the choice of how which state superposition to use. and how many (not more than d1)
     #we give the choice of what enviroment state, ie can choose a random state, a env self int eigenstate or interaction eig, or total Hamiltonian  env eig

@@ -4,7 +4,7 @@ import qutip as qt
 #H takes 5 parameters, + 2 dimensions + option selecting
 #E_spacing for qs, E_int interaction factor, E_int2 constant added to env part of interaction term
 # E_env env self interaction factor, E_env2 constant part of env self interaction term
-def create_H(d1 = 2,d2 = 200, E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0):
+def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
     """Creates Hamiltonian for simulation
 
     Args:
