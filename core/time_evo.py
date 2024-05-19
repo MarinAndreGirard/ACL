@@ -7,7 +7,7 @@ import create_state as cs
 
 #TODO make sure I have all the cool features of q_solve before closing it forever
 
-def time_evo(d1=2,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0], tmax= 10, ind_nb = 100,log=0):
+def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0], tmax= 10, ind_nb = 100,log=0):
 
     H_list = ch.create_H(d1,d2,E_spacing, E_int, E_int2, E_env, E_env2)
     H=H_list[1]
@@ -22,6 +22,6 @@ def time_evo(d1=2,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env
         raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
     
     # Perform time evolution of the combined system
-    result = qt.mesolve(H, state, tlist, [], []) #TODO what are the other things this mesolve takes? is mesolve the right one to use?
+    result = qt.mesolve(H, state_list[0], tlist, [], []) #TODO what are the other things this mesolve takes? is mesolve the right one to use?
     
-    return result, tlist, H_list, ket_list
+    return result, tlist, H_list, state_list
