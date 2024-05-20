@@ -96,6 +96,47 @@ def compute_schmidt_states(result, time_index, subsystem_index=0, trigger=0):
         return schmidt_states
     else:
         return schmidt_values
+    
+def compute_schmidt_states_all_time(result, ind_nb):
+    """_summary_
+
+    Args:
+        result (_type_): _description_
+        ind_nb (int): number of time indices
+        subsystem_index (int, optional): TODO. Defaults to 0.
+        trigger (int, optional): TODO. Defaults to 0.
+
+    Returns:
+        _type_: returns a time list of the Schmidt states of the system (TODO allow for env Schmidt states?). The Schmidt states are sorted by eigenvalue in descending order. Also returns a time list of the eigenvalues of the Schmidt states.
+        For example print(s[0][10][0]) returns the first Schmidt state of the system at time index 10. print(s[0][10][5]) returns the 6th Schmidt state of the system at time index 10. print(s[1][10][3]) returns the 4th Schmdit value (decreasing value) of the system at time index 10.
+    
+    """
+    density_matrix = [qt.ptrace(result.states[time_index], [0]) for time_index in range(ind_nb)] # Calculate the density matrix at all time
+    
+    schmidt_states_tlist = []
+    schmidt_values_tlist = []
+    
+    for time_index in range(ind_nb):
+        eigenvalues, eigenstates = density_matrix[time_index].eigenstates() # Compute the eigenstates and eigenvalues of the density matrix
+        eigenstates = [np.array(state) for state in eigenstates]
+
+        schmidt_states = []
+        schmidt_values = []
+        
+        for state, eigenvalue in zip(eigenstates, eigenvalues):
+            schmidt_values.append(eigenvalue)
+            if eigenvalue == 0:
+                # If the eigenvalue is zero, set the Schmidt state to a zero vector
+                schmidt_states.append(np.zeros_like(state))
+            else:
+                schmidt_states.append(state / np.linalg.norm(state)) # Normalize
+                #schmidt_states.append(state / np.sqrt(np.array(eigenvalue)))  # Normalize
+        # Sort the Schmidt states by eigenvalue in descending order
+        schmidt_states, schmidt_values = zip(*sorted(zip(schmidt_states, schmidt_values), key=lambda x: -x[1]))
+        schmidt_states_tlist.append(schmidt_states)
+        schmidt_values_tlist.append(schmidt_values)
+
+    return schmidt_states_tlist,schmidt_values_tlist
 
 
 def plot_schmidt_value_time(result,tlist):

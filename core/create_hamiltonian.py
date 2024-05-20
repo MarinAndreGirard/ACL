@@ -21,6 +21,8 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
     """
     d = d1*d2  # Total Hilbert space dimension
 
+    #TODO find a way to use a randome key to have consistent results and re-use them for testing.
+
     # System self interaction. Is the self interaction of a truncated simple harmonic oscillator
     # We also want the option to make it a random matrix or the identity.
     # or an identity matrix with simple spacing (which might just be my SHO anyways) TODO
