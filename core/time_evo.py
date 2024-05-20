@@ -17,7 +17,7 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     if log == 0:
         tlist = np.linspace(0, tmax, ind_nb)  # Linear spacing
     elif log == 1:
-        tlist = np.logspace(numpy.log10(1), numpy.log10(tmax+1), ind_nb)-1  # Logarithmic spacing
+        tlist = np.logspace(np.log10(1), np.log10(tmax+1), ind_nb)-1  # Logarithmic spacing
     else:
         raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
     
