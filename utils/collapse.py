@@ -23,7 +23,7 @@ def update(frame, eigenenergies_system_1, eigenstates_system_1, s_list, min_schm
 
     plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
-def collapse_gif(eig, s_list, ind_nb):
+def collapse_gif(eig, s_list, ind_nb,E_int):
     eigenenergies_system_1 = eig[0]
     eigenstates_system_1 = eig[3]
 
@@ -44,7 +44,7 @@ def collapse_gif(eig, s_list, ind_nb):
     ani = FuncAnimation(fig, update, fargs=(eigenenergies_system_1, eigenstates_system_1, s_list, min_schmidt, max_schmidt), frames=ind_nb, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/collapse.gif'
+    path = f'../outputs/gifs/collapse_EI_{E_int}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 

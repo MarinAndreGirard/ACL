@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import create_hamiltonian as ch
 import create_state as cs
 
-#TODO make sure I have all the cool features of q_solve before closing it forever
-
 def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
     """_summary_
 
@@ -18,6 +16,7 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
         E_int2 (int, optional): constant energy of the interaction term. Defaults to 0.
         E_env (int, optional): energy factor in front of environment self hamiltonian. Defaults to 1.
         E_env2 (int, optional): constant enerfy of the environemnt self interaction. Defaults to 0.
+        envi (list, optional): list of probabilities of the initial state of the environment to be in environment self interaction energy eigenstates. Defaults to [0] which sets it to the d2/2 energy eigenstate.
         w (list, optional): list of probabilities of the initial state of the system to be in the SHO energy eigenstates. Defaults to [0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0].
         tmax (int, optional): max time of the time evolution. Defaults to 10.
         ind_nb (int, optional): number of time steps. Defaults to 100.
@@ -29,6 +28,13 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     Returns:
         result, tlist, H_list, state_list: result (TODO), state_list (TODO), H_list (TODO), tlist: list of times at which the time evolution was calculated
     """
+
+    #TODO:
+    #- make sure I have all the cool features of q_solve before closing it forever
+    #- finish docstring
+    #-Do some testing comparing results from essolve and mesolve
+
+
     if len(w) != d1:
         raise ValueError("Length of 'w' and 'd1' must be the same")
 
@@ -45,6 +51,9 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
         raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
     
     # Perform time evolution of the combined system
-    result = qt.mesolve(H, state_list[0], tlist, [], []) #TODO what are the other things this mesolve takes? is mesolve the right one to use?
+    result = qt.mesolve(H, state_list[0], tlist, [], [])
+    #result = qt.essolve(H, state_list[0], tlist, [], [])
     
     return result, tlist, H_list, state_list
+
+
