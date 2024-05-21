@@ -1,9 +1,6 @@
 import numpy as np
 import qutip as qt
 
-#H takes 5 parameters, + 2 dimensions + option selecting
-#E_spacing for qs, E_int interaction factor, E_int2 constant added to env part of interaction term
-# E_env env self interaction factor, E_env2 constant part of env self interaction term
 def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
     """Creates Hamiltonian for simulation
 
@@ -18,6 +15,7 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
 
     Returns:
         int, Qobj,Qobj,Qobj...: _description_...TODO
+        The hamiltonian takes 5 5 parameters to define. We also need 2 dimensions for the Hilbert space. And the function also takes other optional parameters, defining its action.
     """
     d = d1*d2  # Total Hilbert space dimension
 

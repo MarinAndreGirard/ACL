@@ -7,7 +7,7 @@ import create_state as cs
 
 #TODO make sure I have all the cool features of q_solve before closing it forever
 
-def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0], tmax= 10, ind_nb = 100,log=0):
+def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
     """_summary_
 
     Args:
@@ -34,7 +34,7 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
 
     H_list = ch.create_H(d1,d2,E_spacing, E_int, E_int2, E_env, E_env2)
     H=H_list[1]
-    state_list = cs.create_state(d1,d2,H_list[8],w) 
+    state_list = cs.create_state(d1,d2,H_list[8],w,envi) 
      
     tlist = np.linspace(0, tmax, ind_nb) # Linear spacing
     if log == 0:
