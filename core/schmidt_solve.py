@@ -97,7 +97,7 @@ def compute_schmidt_states(result, time_index, subsystem_index=0, trigger=0):
     else:
         return schmidt_values
     
-def compute_schmidt_states_all_time(result, ind_nb):
+def compute_schmidt_states_all_time(result, ind_nb,env_sys=0):
     """_summary_
 
     Args:
@@ -109,9 +109,13 @@ def compute_schmidt_states_all_time(result, ind_nb):
     Returns:
         _type_: returns a time list of the Schmidt states of the system (TODO allow for env Schmidt states?). The Schmidt states are sorted by eigenvalue in descending order. Also returns a time list of the eigenvalues of the Schmidt states.
         For example print(s[0][10][0]) returns the first Schmidt state of the system at time index 10. print(s[0][10][5]) returns the 6th Schmidt state of the system at time index 10. print(s[1][10][3]) returns the 4th Schmdit value (decreasing value) of the system at time index 10.
-    
+        To get environment Schmidt states
     """
-    density_matrix = [qt.ptrace(result.states[time_index], [0]) for time_index in range(ind_nb)] # Calculate the density matrix at all time
+    if env_sys == 0:
+        density_matrix = [qt.ptrace(result.states[time_index], [0]) for time_index in range(ind_nb)] # Calculate the density matrix at all time
+        
+    else:
+        density_matrix = [qt.ptrace(result.states[time_index], [1]) for time_index in range(ind_nb)]
     
     schmidt_states_tlist = []
     schmidt_values_tlist = []

@@ -32,9 +32,9 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     #TODO:
     #- make sure I have all the cool features of q_solve before closing it forever
     #- finish docstring
-    #-Do some testing comparing results from essolve and mesolve
-
-
+    #- Do some testing comparing results from essolve and mesolve
+    #- Make it output all the relevant information in an array so i can use it to title graphs.
+    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log]
     if len(w) != d1:
         raise ValueError("Length of 'w' and 'd1' must be the same")
 
@@ -54,6 +54,6 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     result = qt.mesolve(H, state_list[0], tlist, [], [])
     #result = qt.essolve(H, state_list[0], tlist, [], [])
     
-    return result, tlist, H_list, state_list
+    return result, tlist, H_list, state_list, info_list
 
 
