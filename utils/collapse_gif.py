@@ -27,9 +27,6 @@ def update_collapse(frame, eigenenergies_system_1, eigenstates_system_1, s_list,
 
 def collapse_gif(eig, s_list, info_list, env_sys=0):
 
-    
-
-
     ind_nb=info_list[10]
     E_int=info_list[3]
 
