@@ -65,7 +65,7 @@ def gif_distribution_eig_total(result,eig, info_list): #EI,w,result,eigenstates_
     ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,info_list), frames=ind_nb-1, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/distrib_EI_{E_int}.gif'
+    path = f'../outputs/gifs/distrib_param_{info_list}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 

@@ -65,7 +65,7 @@ def collapse_gif(eig, s_list, info_list, env_sys=0):
     ani = FuncAnimation(fig, update_collapse, fargs=(eigenenergies, eigenstates, s_list, min_schmidt, max_schmidt), frames=ind_nb, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/collapse_EI_{E_int}_{env_sys}.gif'
+    path = f'../outputs/gifs/collapse_param_{info_list}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 
