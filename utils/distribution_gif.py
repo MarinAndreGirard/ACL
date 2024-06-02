@@ -3,11 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from IPython.display import HTML
 from PIL import Image
-#from overlap import compute_schmidt_full
-from schmidt_solve import compute_schmidt_full
 
 
-def update(frames,result,eigenstates_total,eigenenergies_total,info_list):#frames,result
+def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_list):#frames,result
     
     # Clear previous plot
     frames=frames+1
@@ -15,8 +13,8 @@ def update(frames,result,eigenstates_total,eigenenergies_total,info_list):#frame
     w=info_list[7]
     plt.clf()
 
-    state = compute_schmidt_full(result,frames,1)
-    state2 = compute_schmidt_full(result,frames,2)
+    state = s_full_list[frames][0]
+    state2 = s_full_list[frames][1]
     energy_coeff=[abs(np.vdot(state, eigenstate)) ** 2 for eigenstate in eigenstates_total]
     energy_coeff2=[abs(np.vdot(state2, eigenstate)) ** 2 for eigenstate in eigenstates_total]
     
@@ -49,7 +47,7 @@ def update(frames,result,eigenstates_total,eigenenergies_total,info_list):#frame
     # Add clock
     plt.text(0.95, 0.95, f"Frame: {frames}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
-def gif_distribution_eig_total(result,eig, info_list): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
+def gif_distribution_eig_total(result,eig,s_list, info_list): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
     
     #Get the necessary information
     eigenstates_total=eig[1]
@@ -57,12 +55,13 @@ def gif_distribution_eig_total(result,eig, info_list): #EI,w,result,eigenstates_
     ind_nb=info_list[10]
     E_int=info_list[3]
     w=info_list[7]
-
+    s_full_list=s_list[3]
+    
     # Create a figure
     fig = plt.figure(figsize=(10, 5))
 
     # Create the animation
-    ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,info_list), frames=ind_nb-1, interval=100)
+    ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,s_full_list,info_list), frames=ind_nb-1, interval=100)
 
     # Save the animation as a GIF
     path = f'../outputs/gifs/distrib_param_{info_list}.gif'

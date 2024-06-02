@@ -54,6 +54,23 @@ def compute_schmidt_states_new(result, time_index):
 
     return schmidt_states_s,schmidt_states_e,schmidt_values
 
+def compute_schmidt_full(result,idx,s=1):
+    ss, se, sv = compute_schmidt_states_new(result, idx)
+    if s==1:
+        a = ss[0] #schmidt 1 on system 1
+        a = np.squeeze(a)
+        b = se[0] #schmidt 1 on system 2
+        b=np.squeeze(b)
+        g = np.outer(a,b).flatten()
+        g=np.squeeze(g)
+    elif s==2:
+        a = ss[1] #schmidt 2 on system 1
+        a = np.squeeze(a)
+        b = se[1] #schmidt 2 on system 2
+        b=np.squeeze(b)
+        g = np.outer(a,b).flatten()
+        g=np.squeeze(g)
+    return g
 
 def compute_schmidt_states_all_time(result, ind_nb):
     """_summary_
