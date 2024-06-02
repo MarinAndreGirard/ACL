@@ -74,6 +74,25 @@ def compute_schmidt_full(result,idx,s=1):
         g=np.squeeze(g)
     return g
 
+def compute_schmidt_full_2(result,idx):
+
+    ss, se, sv = compute_schmidt_states_new(result, idx)
+    a1 = ss[0] #schmidt 1 on system 1
+    a1 = np.squeeze(a1)
+    b1 = se[0] #schmidt 1 on system 2
+    b1=np.squeeze(b1)
+    g1 = np.outer(a1,b1).flatten()
+    g1=np.squeeze(g1)
+    a2 = ss[1] #schmidt 2 on system 1
+    a2 = np.squeeze(a2)
+    b2 = se[1] #schmidt 2 on system 2
+    b2=np.squeeze(b2)
+    g2 = np.outer(a2,b2).flatten()
+    g2=np.squeeze(g2)
+    return g1,g2
+
+
+
 
 
 def compute_schmidt_states(result, time_index, subsystem_index=0, trigger=0):
@@ -97,10 +116,12 @@ def compute_schmidt_states(result, time_index, subsystem_index=0, trigger=0):
     else:
         return schmidt_values
 
+
+
+
 def compute_schmidt_states_all_time_system_env(result, ind_nb,env_sys):
     if env_sys == 0:
         density_matrix = [qt.ptrace(result.states[time_index], [0]) for time_index in range(ind_nb)] # Calculate the density matrix at all time
-        
     else:
         density_matrix = [qt.ptrace(result.states[time_index], [1]) for time_index in range(ind_nb)]
     
@@ -181,6 +202,42 @@ def compute_schmidt_states_all_time(result, ind_nb):
     
 
     return schmidt_states_s_tlist,schmidt_states_e_tlist,schmidt_values_tlist
+
+def compute_schmidt_states_all_time_2(result, ind_nb):
+    """_summary_
+
+    Args:
+        result (_type_): _description_
+        ind_nb (int): number of time indices
+        subsystem_index (int, optional): TODO. Defaults to 0.
+        trigger (int, optional): TODO. Defaults to 0.
+
+    Returns:
+        _type_: returns a time list of the Schmidt states of the system (TODO allow for env Schmidt states?). The Schmidt states are sorted by eigenvalue in descending order. Also returns a time list of the eigenvalues of the Schmidt states.
+        first [] gives state of system for 0 of environment for 1 and associated eigenvalue for 2. second [] gives the time, third [] gives which Schmidt state, the 0'th 1st, ...
+        For example print(s[0][10][0]) returns the first Schmidt state of the system at time index 10. print(s[0][10][5]) returns the 6th Schmidt state of the system at time index 10. print(s[1][10][3]) returns the 4th Schmdit state of the environment at time index 10.
+        print(s[2][10][3]) returns the 4th Schmdit value (decreasing value) of the environment at time index 10
+
+    """
+
+    #TODO
+    #-Another thing i want to do here is to outpute for all time the compute_schmidt_full() without redundancy in the computation
+    #-Make it do both env and syst.
+
+    for time_index in range(ind_nb):
+        ss, se, sv = compute_schmidt_states_new(result, time_index)
+        schmidt_states_s_tlist.append(ss)
+        schmidt_states_e_tlist.append(se)
+        schmidt_values_tlist.append(sv)
+        schmidt_full_tlist.append(compute_schmidt_full_2(ss, se))
+
+
+    #full = compute_full_schmidt(ind_nb,schmidt_states_s_tlist,schmidt_states_e_tlist)
+
+    #Here do what is dont in compute_schmidt_full() for all time
+    
+
+    return schmidt_states_s_tlist,schmidt_states_e_tlist,schmidt_values_tlist,schmidt_full_tlist
 
 
 def plot_schmidt_value_time(result,tlist):

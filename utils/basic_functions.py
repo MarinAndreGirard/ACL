@@ -27,6 +27,7 @@ def state_distribution_eig_tot(result, eig, info_list):
     return eigenenergies_total,energy_coeff
 
 def schmidt_distrib_eig_tot(result,eig,tlist):
+    #TODO need to make it a function that gives back the distribution for schmidt states in all Hamiltonians. Or for select Hamiltonians.
     """
     Calculate the Schmidt state probability distribution based on the total eigenvalues.
 
