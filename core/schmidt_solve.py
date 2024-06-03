@@ -131,3 +131,6 @@ def compute_schmidt_states_all_time(result, ind_nb):
     
 
     return schmidt_states_s_tlist,schmidt_states_e_tlist,schmidt_values_tlist,schmidt_full_tlist
+
+
+
