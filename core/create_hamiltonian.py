@@ -14,7 +14,7 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
         E_env2 (int, optional): constant energy factor of enviroment self interaction. Defaults to 0.
 
     Returns:
-        int, Qobj,Qobj,Qobj...: _description_...TODO
+        int, Qobj,Qobj,Qobj...: d, H_total, H_s, H_int, H_e, H_s_self, H_int_s, H_int_e, H_e_self TODO
         The hamiltonian takes 5 5 parameters to define. We also need 2 dimensions for the Hilbert space. And the function also takes other optional parameters, defining its action.
         Note that the random matrices generated cannot be controlled, so the results will be different every time. No random number to control randomness is used by rand_herm.
         System self interaction. Is the self interaction of a truncated simple harmonic oscillator
@@ -30,7 +30,7 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
 
     d = d1*d2  # Total Hilbert space dimension
         
-    H_s_self = qt.qeye(d1) #TODO add other options/for self interaction of system, use E_Spacing?
+    H_s_self = 0.01 * qt.rand_herm(d1,1) #TODO add other options/for self interaction of system, use E_Spacing? H_s_self = qt.qeye(d1) or qt.Qobj(np.zeros([d1,d1]))
     H_s = qt.tensor(H_s_self, qt.qeye(d2)) # Extend to full Hilbert space    
     
     diagonal_elements = np.arange(0, d1) * E_spacing   
