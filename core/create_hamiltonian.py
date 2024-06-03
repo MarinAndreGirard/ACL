@@ -1,7 +1,7 @@
 import numpy as np
 import qutip as qt
 
-def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
+def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2,E_s=0):
     """Creates Hamiltonian for simulation
 
     Args:
@@ -30,7 +30,7 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2):
 
     d = d1*d2  # Total Hilbert space dimension
         
-    H_s_self = 0.01 * qt.rand_herm(d1,1) #TODO add other options/for self interaction of system, use E_Spacing? H_s_self = qt.qeye(d1) or qt.Qobj(np.zeros([d1,d1]))
+    H_s_self = E_s * qt.rand_herm(d1,1) #TODO add other options/for self interaction of system, use E_Spacing? H_s_self = qt.qeye(d1) or qt.Qobj(np.zeros([d1,d1]))
     H_s = qt.tensor(H_s_self, qt.qeye(d2)) # Extend to full Hilbert space    
     
     diagonal_elements = np.arange(0, d1) * E_spacing   

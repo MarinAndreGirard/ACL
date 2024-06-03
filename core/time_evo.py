@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import create_hamiltonian as ch
 import create_state as cs
 
-def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
+def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0,E_s=0):
     """_summary_
 
     Args:
@@ -34,11 +34,11 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     #- finish docstring
     #- Do some testing comparing results from essolve and mesolve
     #- Make it output all the relevant information in an array so i can use it to title graphs.
-    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log]
+    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log,E_s]
     if len(w) != d1:
         raise ValueError("Length of 'w' and 'd1' must be the same")
 
-    H_list = ch.create_H(d1,d2,E_spacing, E_int, E_int2, E_env, E_env2)
+    H_list = ch.create_H(d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,E_s)
     H=H_list[1]
     state_list = cs.create_state(d1,d2,H_list[8],w,envi) 
      
