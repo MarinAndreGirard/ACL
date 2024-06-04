@@ -5,7 +5,7 @@ from IPython.display import HTML
 from PIL import Image
 
 
-def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_list):#frames,result
+def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom,x,y):
     
     # Clear previous plot
     frames=frames+1
@@ -17,13 +17,22 @@ def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_
     state2 = s_full_list[frames][1]
     energy_coeff=[abs(np.vdot(state, eigenstate)) ** 2 for eigenstate in eigenstates_total]
     energy_coeff2=[abs(np.vdot(state2, eigenstate)) ** 2 for eigenstate in eigenstates_total]
+    if zoom == True:
+        plt.plot(eigenenergies_total, energy_coeff)
+        plt.plot(eigenenergies_total, energy_coeff2)
+        plt.title(f"Plot of the probability that Schmidt1 and 2 are in the energy eigenstates for EI={EI} and w={w}")
+        plt.xlabel("Eigenenergies of H_total")
+        plt.ylabel("Probabilities")
+        plt.ylim(y[0], y[1])
+        plt.xlim(x[0], x[1])
+    else:
+        plt.plot(eigenenergies_total, energy_coeff)
+        plt.plot(eigenenergies_total, energy_coeff2)
+        plt.title(f"Plot of the probability that Schmidt1 and 2 are in the energy eigenstates for EI={EI} and w={w}")
+        plt.xlabel("Eigenenergies of H_total")
+        plt.ylabel("Probabilities")
+        plt.ylim(0, 0.35)
     
-    plt.plot(eigenenergies_total, energy_coeff)
-    plt.plot(eigenenergies_total, energy_coeff2)
-    plt.title(f"Plot of the probability that Schmidt1 and 2 are in the energy eigenstates for EI={EI} and w={w}")
-    plt.xlabel("Eigenenergies of H_total")
-    plt.ylabel("Probabilities")
-    plt.ylim(0, 0.35)
     # Calculate the mean
     mean1 = np.sum(np.array(energy_coeff) * np.array(eigenenergies_total))
     mean2 = np.sum(np.array(energy_coeff2) * np.array(eigenenergies_total))
@@ -47,7 +56,7 @@ def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_
     # Add clock
     plt.text(0.95, 0.95, f"Frame: {frames}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
-def gif_distribution_eig_total(result,eig,s_list, info_list): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
+def gif_distribution_eig_total(result,eig,s_list, info_list, zoom=False,x=[0,2],y=[0,0.05]): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
     
     #Get the necessary information
     eigenstates_total=eig[1]
@@ -61,10 +70,10 @@ def gif_distribution_eig_total(result,eig,s_list, info_list): #EI,w,result,eigen
     fig = plt.figure(figsize=(10, 5))
 
     # Create the animation
-    ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,s_full_list,info_list), frames=ind_nb-1, interval=100)
+    ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom,x,y), frames=ind_nb-1, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/distrib_param_{info_list}.gif'
+    path = f'../outputs/gifs/distrib_param_{info_list}_zoom_{zoom}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 
