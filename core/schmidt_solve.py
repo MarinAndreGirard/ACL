@@ -96,7 +96,7 @@ def compute_schmidt_states_all_time(result, ind_nb):
     schmidt_states_e_tlist=[]
     schmidt_values_tlist=[]
     schmidt_full_tlist=[]
-
+    
 
     for time_index in range(ind_nb):
         ss, se, sv = compute_schmidt_states_new(result, time_index)
@@ -123,12 +123,6 @@ def compute_schmidt_states_all_time(result, ind_nb):
         g2=np.squeeze(g2)
         g=[g1,g2]
         schmidt_full_tlist.append(g)
-
-
-    #full = compute_full_schmidt(ind_nb,schmidt_states_s_tlist,schmidt_states_e_tlist)
-
-    #Here do what is dont in compute_schmidt_full() for all time
-    
 
     return schmidt_states_s_tlist,schmidt_states_e_tlist,schmidt_values_tlist,schmidt_full_tlist
 
