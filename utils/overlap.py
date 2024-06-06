@@ -2,6 +2,9 @@ import numpy as np
 import qutip as qt
 import math
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+from PIL import Image
 
 
 #Defining the overlap of states in probability space
@@ -38,6 +41,60 @@ def overlap(tlist,result,H_list,s_list,eig):
         o12.append(p_overlap(s1,s2,eigenstates_total))
 
     return o01, o02, o12
+
+
+def update(frames,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom):
+    # Clear previous plot
+    frames=frames+1
+    EI=info_list[3]
+    w=info_list[7]
+    plt.clf()
+ 
+    #plot of the values of the overlap of first term in the first schmidt wit the first term in the second schmitd  in the total energy eigenbasis for all states.
+
+    s1 = s_full_list[frames][0]
+    s2 = s_full_list[frames][1]
+
+    o1=[abs(np.vdot(s1, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+    o2=[abs(np.vdot(s2, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+    o=[o1[i]*o2[i] for i in range(len(o1))]
+    if zoom == True:
+        plt.plot(eigenenergies_total,o)
+        plt.title(f"Plot of the overlap of probabilities Schmidt 1 and 2 in the total energy eigenbasis for EI={EI} and w={w}")
+        plt.xlabel("Eigenenergies of H_total")
+        plt.ylabel("Overlap in eigenstate i")
+    else:
+        plt.plot(eigenenergies_total,o)
+        plt.title(f"Plot of the overlap of probabilities of Schmidt 1 and 2 in the total energy eigenbasis for EI={EI} and w={w}")
+        plt.xlabel("Eigenenergies of H_total")
+        plt.ylabel("Overlap in eigenstate i")
+        plt.ylim(0, 0.002)
+    
+    # Add clock
+    plt.text(0.95, 0.95, f"Frame: {frames}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
+
+def gif_schmidt_overlap(eig,s_list, info_list, zoom=False): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
+    
+    #Get the necessary information
+    eigenstates_total=eig[1]
+    eigenenergies_total=eig[0]
+    ind_nb=info_list[10]
+    s_full_list=s_list[3]
+    
+    # Create a figure
+    fig = plt.figure(figsize=(10, 5))
+
+    # Create the animation
+    ani = FuncAnimation(fig, update,fargs=(eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom), frames=ind_nb-1, interval=200)
+
+    # Save the animation as a GIF
+    path = f'../outputs/gifs/overlap_schmidts_param_{info_list}_zoom_{zoom}.gif'
+    ani.save(path, writer='pillow')
+    plt.close()
+
+    return path
+
+
 
 
 
