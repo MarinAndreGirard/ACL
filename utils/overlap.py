@@ -21,13 +21,35 @@ def p_overlap(state1,state2,eigenstates_total):
     overlap = np.dot(sqrt_p1, sqrt_p2)
     return overlap
 
-def overlap(tlist,result,H_list,s_list,eig):
+def get_mean_rd_overlap(eig, info):
+    d1=info[0]
+    d2=info[1]
+    d=d1*d2
+    eigenenergies_total=eig[0]
+    eigenstates_total=eig[1] 
+    overlap_list=[]
+    # get 2 random states. meaure overlap. repeat 10 times. make avg.
+    
+    for _ in range(10):
+        state1 = np.random.rand(d)
+        state2 = np.random.rand(d)
+        o1=[abs(np.vdot(state1, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+        o2=[abs(np.vdot(state2, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+        o=[o1[i]*o2[i] for i in range(len(o1))]
+        overlap_list.append(overlap)
+        overlap=np.sum(o)
+    mean_overlap = np.mean(overlap_list)
+    
+    return mean_overlap
+
+def overlap(tlist,result,H_list,s_list,eig,info):
 
     H_total=H_list[1]
     o01 = []
     o02 = []
     o12 = []
     eigenstates_total = eig[1]
+    mean = get_mean_rd_overlap(eig,info)
     #eigenenergies_total, eigenstates_total = H_total.eigenstates()
     for idx in range(len(tlist)-2):
         #s1=compute_schmidt_full(result,idx+1,1)
@@ -40,39 +62,7 @@ def overlap(tlist,result,H_list,s_list,eig):
         o02.append(p_overlap(global_state,s2,eigenstates_total))
         o12.append(p_overlap(s1,s2,eigenstates_total))
 
-    return o01, o02, o12
-
-def get_mean_rd_overlap(w = 0.3,Int_strength = 0.052):
-    
-    # get 2 random states. meaure overlap. repeat 10 times. make avg.
-    
-
-
-    interaction_strength = Int_strength  # Adjust as needed
-    H_interaction = interaction_strength * qt.tensor(H_q, qt.rand_herm(d2,1))  
-        
-    H_system_1_ext = qt.tensor(H_system_1, qt.qeye(d2))
-    H_system_2_ext = 0.75*qt.tensor(qt.qeye(d1), H_system_2_1)
-    H_total = H_system_1_ext + H_system_2_ext + H_interaction
-
-    eigenenergies_total, eigenstates_total = H_total.eigenstates() 
-
-    st=[]
-    for s in states:
-        st.append(s.full().squeeze())
-
-    state_0=st[0]
-    p_0=[abs(np.vdot(state_0, eigenstate)) for eigenstate in eigenstates_total]
-    st.pop(0)
-
-    overlap_list=[]
-    for s in st:
-        p = [abs(np.vdot(s, eigenstate)) for eigenstate in eigenstates_total]
-        overlap_list.append(np.dot(p_0, p))
-
-    mean_overlap = np.mean(overlap_list)
-    return mean_overlap
-
+    return o01, o02, o12, mean
 
 def update(frames,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom):
     # Clear previous plot
@@ -111,7 +101,7 @@ def gif_schmidt_overlap(eig,s_list, info_list, zoom=False): #EI,w,result,eigenst
     eigenenergies_total=eig[0]
     ind_nb=info_list[10]
     s_full_list=s_list[3]
-    
+
     # Create a figure
     fig = plt.figure(figsize=(10, 5))
 
