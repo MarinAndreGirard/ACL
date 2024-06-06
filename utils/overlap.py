@@ -42,6 +42,37 @@ def overlap(tlist,result,H_list,s_list,eig):
 
     return o01, o02, o12
 
+def get_mean_rd_overlap(w = 0.3,Int_strength = 0.052):
+    
+    # get 2 random states. meaure overlap. repeat 10 times. make avg.
+    
+
+
+    interaction_strength = Int_strength  # Adjust as needed
+    H_interaction = interaction_strength * qt.tensor(H_q, qt.rand_herm(d2,1))  
+        
+    H_system_1_ext = qt.tensor(H_system_1, qt.qeye(d2))
+    H_system_2_ext = 0.75*qt.tensor(qt.qeye(d1), H_system_2_1)
+    H_total = H_system_1_ext + H_system_2_ext + H_interaction
+
+    eigenenergies_total, eigenstates_total = H_total.eigenstates() 
+
+    st=[]
+    for s in states:
+        st.append(s.full().squeeze())
+
+    state_0=st[0]
+    p_0=[abs(np.vdot(state_0, eigenstate)) for eigenstate in eigenstates_total]
+    st.pop(0)
+
+    overlap_list=[]
+    for s in st:
+        p = [abs(np.vdot(s, eigenstate)) for eigenstate in eigenstates_total]
+        overlap_list.append(np.dot(p_0, p))
+
+    mean_overlap = np.mean(overlap_list)
+    return mean_overlap
+
 
 def update(frames,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom):
     # Clear previous plot
