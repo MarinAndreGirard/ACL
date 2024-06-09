@@ -9,7 +9,6 @@ from PIL import Image
 
 #Defining the overlap of states in probability space
 # a measure of similarity of weights in the energie eigenbasis
-
 def get_p_s2(state,eigenstates_total):
     p=[abs(np.vdot(state, eigenstate)) ** 2  for eigenstate in eigenstates_total]
     return p
@@ -20,7 +19,7 @@ def p_overlap(state1,state2,eigenstates_total):
     sqrt_p2 = np.sqrt(get_p_s2(state2,eigenstates_total))
     overlap = np.dot(sqrt_p1, sqrt_p2)
     return overlap
-
+"""
 def get_mean_rd_overlap(eig, info):
     d1=info[0]
     d2=info[1]
@@ -32,15 +31,39 @@ def get_mean_rd_overlap(eig, info):
     
     for _ in range(10):
         state1 = np.random.rand(d)
+        state1 /= np.linalg.norm(state1)
         state2 = np.random.rand(d)
+        state2 /= np.linalg.norm(state2)
         o1=[abs(np.vdot(state1, eigenstate)) ** 2  for eigenstate in eigenstates_total]
         o2=[abs(np.vdot(state2, eigenstate)) ** 2  for eigenstate in eigenstates_total]
         o=[o1[i]*o2[i] for i in range(len(o1))]
-        overlap_list.append(overlap)
         overlap=np.sum(o)
+        overlap_list.append(overlap)
     mean_overlap = np.mean(overlap_list)
     
     return mean_overlap
+
+def get_mean_rd_overlap(eig, info):
+    
+    eigenenergies_total=eig[0]
+    eigenstates_total=eig[1] 
+    overlap_list=[]
+    # get 2 random states. meaure overlap. repeat 10 times. make avg.
+    for _ in range(1):
+        result, tlist, H_list, state_list, info_list = time_evo(info[0],info[1],info[2], info[3], info[4], info[5], info[6], info[7], info[8],info[9], info[10],info[11])
+        state1 = state_list[0]
+        result, tlist, H_list, state_list, info_list = time_evo(info[0],info[1],info[2], info[3], info[4], info[5], info[6], info[7], info[8],info[9], info[10],info[11])
+        state2 = state_list[0]
+        o1=[abs(np.vdot(state1, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+        o2=[abs(np.vdot(state2, eigenstate)) ** 2  for eigenstate in eigenstates_total]
+        o=[o1[i]*o2[i] for i in range(len(o1))]
+        overlap=np.sum(o)
+        overlap_list.append(overlap)
+    mean_overlap = np.mean(overlap_list)
+        
+    return mean_overlap
+"""
+
 
 def overlap(tlist,result,H_list,s_list,eig,info):
 
