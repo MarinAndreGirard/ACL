@@ -72,7 +72,7 @@ def overlap(tlist,result,H_list,s_list,eig,info):
     o02 = []
     o12 = []
     eigenstates_total = eig[1]
-    mean = get_mean_rd_overlap(eig,info)
+    #mean = get_mean_rd_overlap(eig,info)
     #eigenenergies_total, eigenstates_total = H_total.eigenstates()
     for idx in range(len(tlist)-2):
         #s1=compute_schmidt_full(result,idx+1,1)
@@ -85,7 +85,7 @@ def overlap(tlist,result,H_list,s_list,eig,info):
         o02.append(p_overlap(global_state,s2,eigenstates_total))
         o12.append(p_overlap(s1,s2,eigenstates_total))
 
-    return o01, o02, o12, mean
+    return o01, o02, o12#, mean
 
 def update(frames,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom):
     # Clear previous plot
