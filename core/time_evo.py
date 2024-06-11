@@ -49,7 +49,7 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
         tlist = np.logspace(np.log10(1), np.log10(tmax+1), ind_nb)-1  # Logarithmic spacing
     else:
         raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
-    
+    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log,E_s,tlist]
     # Perform time evolution of the combined system
     result = qt.mesolve(H, state_list[0], tlist, [], [])
     #result = qt.essolve(H, state_list[0], tlist, [], [])
