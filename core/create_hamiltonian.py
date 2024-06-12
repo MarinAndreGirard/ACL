@@ -35,6 +35,15 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2,E_s=0):
         np.random.normal(size=(2**n_qubits, 2**n_qubits))*1j
     return 1/4*mat*mat.conj().T, None, None
     """
+#####
+    #we creat the real ACL model here
+    diagonal_elements = np.arange(0, d1) * E_spacing   
+    H_s_self=qt.Qobj(np.diag(diagonal_elements))
+    H_int_s = qt.Qobj(np.zeros([d1,d1]))
+    H_int_s[range(d1),range(d1-1,d1)] = np.sqrt(d1)
+    H_int_s[range(d1-1),range(d1)] = np.sqrt(d1)
+#####
+
     d = d1*d2  # Total Hilbert space dimension
         
     H_s_self = E_s * qt.rand_herm(d1,1) #TODO add other options/for self interaction of system, use E_Spacing? H_s_self = qt.qeye(d1) or qt.Qobj(np.zeros([d1,d1]))
