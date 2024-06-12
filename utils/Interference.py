@@ -5,6 +5,8 @@ from core.schmidt_solve import compute_schmidt_states_new
 from core.schmidt_solve import compute_schmidt_full
 
 def interference_plot(result,H_list,eigen,tlist,start_num=1000,end_num=1010):
+    
+    tlist=info[13]
     #set things up
     prob_list=[]
     prob_list2=[]
@@ -72,8 +74,11 @@ def interference_plot(result,H_list,eigen,tlist,start_num=1000,end_num=1010):
     plt.grid(True)
     plt.show()
 
-def total_interference(tlist,result,eigenstates_total,eigenenergies_total,EI,w):
-
+def total_interference(result,eigen,info):
+    eigenstates_total = eigen[1]
+    EI=info[3]
+    w=info[4]
+    tlist=info[13]
     interference_list=[]
 
     for idx in range(len(tlist)-1):
@@ -83,7 +88,7 @@ def total_interference(tlist,result,eigenstates_total,eigenenergies_total,EI,w):
 
         state = result.states[idx+1].full()
         state1 = compute_schmidt_full(result,idx+1,1)
-        state2 = compute_schmidt_full(result,idx+1,2)
+        state2 = compute_schmidt_full(result,idx+1,2) #TODO pass it to taking s_list
         p=[abs(np.vdot(state, eigenstate)) ** 2 for eigenstate in eigenstates_total]
         p1=[abs(np.vdot(state1, eigenstate)) ** 2 for eigenstate in eigenstates_total]
         p2=[abs(np.vdot(state2, eigenstate)) ** 2 for eigenstate in eigenstates_total]
@@ -96,7 +101,11 @@ def total_interference(tlist,result,eigenstates_total,eigenenergies_total,EI,w):
     plt.ylabel("Interference (sum of probability difference with the global state)")
     plt.show()
     
-def all_interference(tlist,result,eigenstates_total,eigenenergies_total,EI,w):
+def all_interference(result,eigen, info):
+    eigenstates_total = eigen[1]
+    EI=info[3]
+    w=info[4]
+    tlist=info[13]
     interference_list=[]
     for idx in range(len(tlist)-1):
         ss, se, sv = compute_schmidt_states_new(result, idx)
@@ -104,19 +113,18 @@ def all_interference(tlist,result,eigenstates_total,eigenenergies_total,EI,w):
         s_val_1 = sv[1]
 
         state = result.states[idx+1].full()
-        state1 = compute_schmidt_full(result,idx+1,1)
+        state1 = compute_schmidt_full(result,idx+1,1)#TODO pass it to taking s_list
         state2 = compute_schmidt_full(result,idx+1,2)
         p=[abs(np.vdot(state, eigenstate)) ** 2 for eigenstate in eigenstates_total]
         p1=[abs(np.vdot(state1, eigenstate)) ** 2 for eigenstate in eigenstates_total]
         p2=[abs(np.vdot(state2, eigenstate)) ** 2 for eigenstate in eigenstates_total]
         interference = [abs(np.sqrt(s_val_0*s_val_1)*(2*np.real(np.vdot(eig,state1))*np.real(np.vdot(eig,state2))+2*np.imag(np.vdot(eig,state1))*np.imag(np.vdot(eig,state2)))) for eig in eigenstates_total]
-        interference_list.append(interference)  
+        interference_list.append(interference)
     plt.plot(tlist[0:len(tlist)-1], interference_list)
     plt.title(f"Plot of the total absolute interference between Schmidts 1 and 2 over time for EI={EI}, w={w}")
     plt.xlabel("Time")
     plt.ylabel("Interference (sum of probability difference with the global state)")
     plt.show()
-
 
 
 #What this graph tells me is that somehow the sum of the probabilities of the 2 worlds being in  
