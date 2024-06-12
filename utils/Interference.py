@@ -4,7 +4,7 @@ import qutip as qt
 from core.schmidt_solve import compute_schmidt_states_new
 from core.schmidt_solve import compute_schmidt_full
 
-def interference_plot(result,H_list,eigen,tlist,start_num=1000,end_num=1010):
+def interference_plot(result,H_list,eigen,info,start_num=1000,end_num=1010):
     
     tlist=info[13]
     #set things up

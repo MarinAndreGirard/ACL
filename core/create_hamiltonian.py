@@ -27,7 +27,14 @@ def create_H(d1,d2, E_spacing, E_int, E_int2, E_env, E_env2,E_s=0):
     #- why is only H_int_s Qobj
     #-finish docstring
     #-Go check out the ACL paper, because I may actually be doing an adapted adapted caldereia leggett model.
-
+    #-add seed! usethefollowing
+    """
+    def get_random_H(n_qubits: int, seed=None) -> np.ndarray:
+    np.random.seed(seed)
+    mat = np.random.normal(size=(2**n_qubits, 2**n_qubits)) + \
+        np.random.normal(size=(2**n_qubits, 2**n_qubits))*1j
+    return 1/4*mat*mat.conj().T, None, None
+    """
     d = d1*d2  # Total Hilbert space dimension
         
     H_s_self = E_s * qt.rand_herm(d1,1) #TODO add other options/for self interaction of system, use E_Spacing? H_s_self = qt.qeye(d1) or qt.Qobj(np.zeros([d1,d1]))
