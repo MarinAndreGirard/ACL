@@ -13,7 +13,6 @@ from matplotlib.animation import FuncAnimation
 def update_collapse(frame, eigenenergies_system_1, eigenstates_system_1, s_list, min_schmidt, max_schmidt):
     # Clear previous plot
     plt.clf()
-    
     s0 = s_list[0][frame][0]
     schmidt_coefficients0 = [abs(np.vdot(s0, eigenstate)) ** 2 for eigenstate in eigenstates_system_1]
 
@@ -27,8 +26,8 @@ def update_collapse(frame, eigenenergies_system_1, eigenstates_system_1, s_list,
 
 def collapse_gif(eig, s_list, info_list, env_sys=0):
 
-    ind_nb=info_list[10]
-    E_int=info_list[3]
+    ind_nb=info_list[13]
+    #ind_nb=info_list[10] old version
 
     # Compute global min and max values for Schmidt coefficients to fix y-axis limits
     if env_sys == 0:
@@ -65,7 +64,7 @@ def collapse_gif(eig, s_list, info_list, env_sys=0):
     ani = FuncAnimation(fig, update_collapse, fargs=(eigenenergies, eigenstates, s_list, min_schmidt, max_schmidt), frames=ind_nb, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/collapse_param_{info_list}.gif'
+    path = f'../outputs/gifs/collapse_param_{info_list[0]}_{info_list[1]}_{info_list[2]}_{info_list[3]}_{info_list[4]}_{info_list[5]}_{info_list[6]}_{info_list[7]}_{info_list[8]}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 

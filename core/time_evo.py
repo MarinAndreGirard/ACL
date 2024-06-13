@@ -58,8 +58,8 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     
     return result, tlist, H_list, state_list, info_list
 
-def time_evo_2(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int2=0, E_e=1, E_e2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
-    """_summary_
+def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,E_int_e2=0, E_e=1, E_e2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
+    """_summary_ 
     Args:
         d1 (int, optional): dimension of the system. Defaults to 10.
         d2 (int, optional): dimension of the environment. Defaults to 200.
@@ -86,12 +86,11 @@ def time_evo_2(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int2=0, E_e
     #- finish docstring
     #- Do some testing comparing results from essolve and mesolve
     #- Make it output all the relevant information in an array so i can use it to title graphs.
-    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log,E_s] #TODO update info_list and make relevant changes to other functions
     if len(w) != d1:
         raise ValueError("Length of 'w' and 'd1' must be the same")
 
     #H_list = ch.create_H(d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,E_s)
-    H_list = ch.create_H_new(d1,d2, E_s, E_s2, E_int_s, E_int_e,E_int2, E_e, E_e2)
+    H_list = ch.create_H_new(d1,d2, E_s, E_s2, E_int_s, E_int_e,E_int_s2, E_int_e2, E_e, E_e2)
 
     H=H_list[1]
     state_list = cs.create_state(d1,d2,H_list[8],w,envi) 
@@ -103,7 +102,8 @@ def time_evo_2(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int2=0, E_e
         tlist = np.logspace(np.log10(1), np.log10(tmax+1), ind_nb)-1  # Logarithmic spacing
     else:
         raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
-    info_list=[d1,d2,E_spacing, E_int, E_int2, E_env, E_env2,w,envi,tmax,ind_nb,log,E_s,tlist]
+    info_list=[d1,d2,E_s, E_s2, E_int_s, E_int_e,E_int_s2,E_int_e2, E_e, E_e2,w,envi, tmax, ind_nb,log,tlist] #TODO update info_list and make relevant changes to other functions
+    
     # Perform time evolution of the combined system
     result = qt.mesolve(H, state_list[0], tlist, [], [])
     #result = qt.essolve(H, state_list[0], tlist, [], [])
