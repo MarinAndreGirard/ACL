@@ -1,0 +1,4 @@
+result === Result object with sesolve data.
+--------------------------------
+states = True
+num_collapse = 0
