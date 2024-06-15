@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import create_hamiltonian as ch
 import create_hamiltonian as ch
 import create_state as cs
+import sys
+import os
 
 def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_env2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0,E_s=0):
     """_summary_
@@ -58,7 +60,30 @@ def time_evo(d1=10,d2=200,E_spacing = 1.0, E_int = 0.03, E_int2=0, E_env=1, E_en
     
     return result, tlist, H_list, state_list, info_list
 
-def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,E_int_e2=0, E_e=1, E_e2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0):
+def load_outputs_3(file_name):
+    """
+    Load the results saved in a file by the `time_evo_new` function.
+    
+    Args:
+        file_name (str): path to the output file.
+        
+    Returns:
+        tuple: result, tlist, H_list, state_list, info_list
+    """
+    outputs_dir = "outputs/simulation_results"
+    file_path = os.path.join(outputs_dir, file_name)
+    with open(file_path, "r") as f:
+        lines = f.readlines()
+    params = {}
+    for line in lines[1:12]:
+        k, v = line.strip().split("=")
+        params[k.strip()] = eval(v.strip())
+    results = []
+    for line in lines[12:]:
+        results.append(eval(line.strip()))
+    return results[0], results[1], results[2], results[3], params
+
+def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,E_int_e2=0, E_e=1, E_e2=0,w=[0,0,0,np.sqrt(0.3),0,0,0,np.sqrt(0.7),0,0],envi=[0], tmax= 10, ind_nb = 100,log=0,file_name="simulation_results.txt"):
     """_summary_ 
     Args:
         d1 (int, optional): dimension of the system. Defaults to 10.
@@ -108,4 +133,79 @@ def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,
     result = qt.mesolve(H, state_list[0], tlist, [], [])
     #result = qt.essolve(H, state_list[0], tlist, [], [])
     
+    # Save outputs in a .txt file in the same directory as the function was called
+    outputs_dir = "outputs/simulation_results"
+    if not os.path.exists(outputs_dir):
+        os.makedirs(outputs_dir)
+    file_path = os.path.join(outputs_dir, file_name)
+    with open(file_path, "w") as f:
+        f.write("Parameters taken by the function:\n")
+        for k,v in locals().items():
+            f.write(f"{k} = {v}\n")
+        f.write("Results:\n")
+        f.write(f"result = {result}\n")
+        f.write(f"H_list = {H_list}\n")
+        f.write(f"state_list = {state_list}\n")
+        f.write(f"info_list = {info_list}\n")
+    
     return result, tlist, H_list, state_list, info_list
+
+
+def load_outputs(file_name):
+    """
+    Load the results saved in a file by the `time_evo_new` function.
+    
+    Args:
+        file_name (str): path to the output file.
+        
+    Returns:
+        d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist, result, H_list, state_list, info_list: variables recovered from the file.
+    """
+    with open(file_name, "r") as f:
+        lines = f.readlines()
+    
+    # Extract parameters
+    params = {}
+    for line in lines[1:12]:
+        param, value = line.split(" = ")
+        params[param.strip()] = eval(value.strip())
+    
+    # Extract results
+    results = {}
+    for line in lines[13:]:
+        key, value = line.split(" = ")
+        results[key.strip()] = eval(value.strip())
+    
+    # Recover variables
+    d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist = params.values()
+    result, H_list, state_list, info_list = results.values()
+    
+    return d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist, result, H_list, state_list, info_list
+
+
+def load_outputs_2(file_name):
+    """
+    Load the results saved in a file by the `time_evo_new` function.
+    
+    Args:
+        file_name (str): path to the output file.
+        
+    Returns:
+        d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist, result, H_list, state_list, info_list: variables recovered from the file.
+    """
+    with open(file_name, "r") as f:
+        lines = f.readlines()
+    
+    # Extract parameters
+    params = {line.split(" = ")[0]: eval(line.split(" = ")[1]) for line in lines[1:12]}
+    
+    # Extract results
+    results = {line.split(" = ")[0]: eval(line.split(" = ")[1]) for line in lines[13:]}
+    
+    # Recover variables
+    d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist = params.values()
+    result, H_list, state_list, info_list = results.values()
+    
+    return d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist, result, H_list, state_list, info_list
+
+
