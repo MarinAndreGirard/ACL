@@ -5,7 +5,7 @@ import qutip as qt
 
 
 def exp_val_time(result, H_list, info):
-    tlist = info[13]
+    tlist = info[15]
     exp_val_time = []
     E_tot=[]
     E_s=[]
@@ -22,7 +22,7 @@ def exp_val_time(result, H_list, info):
     return exp_val_time
 
 def exp_val_time_file(result, H_list, info, file_name):
-    tlist = info[13]
+    tlist = info[15]
     exp_val_time = []
     E_tot=[]
     E_s=[]
