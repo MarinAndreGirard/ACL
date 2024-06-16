@@ -61,9 +61,9 @@ def gif_distribution_eig_total(result,eig,s_list, info_list, zoom=False,x=[0,2],
     #Get the necessary information
     eigenstates_total=eig[1]
     eigenenergies_total=eig[0]
-    ind_nb=info_list[10]
-    E_int=info_list[3]
-    w=info_list[7]
+    ind_nb=info_list[13]
+    E_int=info_list[4]
+    w=info_list[10]
     s_full_list=s_list[3]
     
     # Create a figure

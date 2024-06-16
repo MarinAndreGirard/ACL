@@ -77,4 +77,7 @@ def Neff(result,eig):
     return Neff,eigenenergies_total
 
 
-
+def random_dephasing(state):
+    dephased_data = [elem * np.exp(1j * np.random.uniform(0, 2*np.pi)) for elem in state.full().ravel()]
+    dephased_state = qt.Qobj(np.array(dephased_data).reshape(state.shape))
+    return dephased_state

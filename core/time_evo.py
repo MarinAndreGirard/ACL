@@ -133,6 +133,12 @@ def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,
         f.write(f"tmax === {tmax}\n")
         f.write(f"ind_nb === {ind_nb}\n")
         f.write(f"log === {log}\n")
+    
+    # Save parameters in a .txt file
+    tlist_file_path = os.path.join(outputs_dir, "tlist_" + file_name)
+    np.save(tlist_file_path, tlist)
+    #with open(tlist_file_path, "w") as f:
+    #   f.write(f"{tlist}")
 
     # Save result in a .txt file
     result_file_path = os.path.join(outputs_dir, "result_" + file_name)
@@ -144,7 +150,7 @@ def time_evo_new(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,E_int_s2=0,
     #H_total, H_s, H_int, H_e, H_s_self, H_int_s, H_int_e, H_e_self
     
     qt.qsave(H_list, H_list_file_path)
-        
+    
     return result, tlist, H_list, state_list, info_list
 
 
@@ -188,6 +194,14 @@ def load_param(file_name):
     d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log= params.values()
     
     return d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log
+
+def load_tlist(file_name):
+
+    outputs_dir = "outputs/simulation_results"
+    tlist_file_path = os.path.join(outputs_dir, "tlist_" + file_name + ".npy")
+    tlist_temp=np.load(tlist_file_path)
+
+    return tlist_temp
 
 def load_result(file_name):
     outputs_dir = "outputs/simulation_results"

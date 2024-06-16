@@ -1,0 +1,5 @@
+# Ignore specific files
+
+
+# Ignore a directory and all its contents
+Working/outputs/simulation_results
