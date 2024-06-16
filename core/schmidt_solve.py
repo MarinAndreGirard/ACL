@@ -73,21 +73,6 @@ def compute_schmidt_full(result,idx,s=1):
     return g
 
 def compute_schmidt_states_all_time(result, ind_nb):
-    """_summary_
-
-    Args:
-        result (_type_): _description_
-        ind_nb (int): number of time indices
-        subsystem_index (int, optional): TODO. Defaults to 0.
-        trigger (int, optional): TODO. Defaults to 0.
-
-    Returns:
-        _type_: returns a time list of the Schmidt states of the system (TODO allow for env Schmidt states?). The Schmidt states are sorted by eigenvalue in descending order. Also returns a time list of the eigenvalues of the Schmidt states.
-        first [] gives state of system for 0 of environment for 1 and associated eigenvalue for 2. second [] gives the time, third [] gives which Schmidt state, the 0'th 1st, ...
-        For example print(s[0][10][0]) returns the first Schmidt state of the system at time index 10. print(s[0][10][5]) returns the 6th Schmidt state of the system at time index 10. print(s[1][10][3]) returns the 4th Schmdit state of the environment at time index 10.
-        print(s[2][10][3]) returns the 4th Schmdit value (decreasing value) of the environment at time index 10
-
-    """
 
     #TODO
     #-Another thing i want to do here is to outpute for all time the compute_schmidt_full() without redundancy in the computation

@@ -4,8 +4,7 @@ import qutip as qt
 # this file will contain funciton for returning the expectation values of the various Hamiltonians in time.
 
 
-def exp_val_time(result, H_list, info):
-    tlist = info[15]
+def exp_val_time(result, H_list, tlist):
     exp_val_time = []
     E_tot=[]
     E_s=[]
