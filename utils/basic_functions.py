@@ -87,6 +87,13 @@ def random_dephasing(state):
 Side project. this piece of code dephases a state and calculates its expectation values. the goal of which was to compare them to the equilibrium values.
 It already works. but i may have needed to only dephase the environment part. unsure.
 
+
+def random_dephasing(state):
+    state = state.full().ravel()
+    dephased_data = [elem * np.exp(1j * np.random.uniform(0, 2*np.pi)) for elem in state]
+    dephased_state = np.array(dephased_data)
+    return dephased_state
+
 st=result.states[50]
 depahsed_st=random_dephasing(st)
 print(st)

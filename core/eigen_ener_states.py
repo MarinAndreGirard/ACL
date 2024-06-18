@@ -9,8 +9,8 @@ def eigen_ener_states(H_list):
         H (Qobj): _description_
         H_s_self (Qobj): _description_
 
-    Returns: eigenenergies_total,eigenstates_total,eigenenergies_s,eigenstates_s,eigenenergies_int,eigenstates_int,eigenenergies_e,eigenstates_e,eigenenergies_s_self,eigenstates_s_self,eigenenergies_int_s,eigenstates_int_s,eigenenergies_int_e,eigenstates_int_e,eigenenergies_e_self,eigenstates_e_self
-    The nomenclature is the same as for the Hamiltonians.
+    Returns in the following order: eigenenergies_total,eigenstates_total,eigenenergies_s,eigenstates_s,eigenenergies_int,eigenstates_int,eigenenergies_e,eigenstates_e,eigenenergies_s_self,eigenstates_s_self,eigenenergies_int_s,eigenstates_int_s,eigenenergies_int_e,eigenstates_int_e,eigenenergies_e_self,eigenstates_e_selfeigenenergies_total,eigenstates_total,eigenenergies_s,eigenstates_s,eigenenergies_int,eigenstates_int,eigenenergies_e,eigenstates_e,eigenenergies_s_self,eigenstates_s_self,eigenenergies_int_s,eigenstates_int_s,eigenenergies_int_e,eigenstates_int_e,eigenenergies_e_self,eigenstates_e_self
+    The nomenclature is the same as used for the Hamiltonian.
                     """
 
 
