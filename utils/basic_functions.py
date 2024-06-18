@@ -81,3 +81,22 @@ def random_dephasing(state):
     dephased_data = [elem * np.exp(1j * np.random.uniform(0, 2*np.pi)) for elem in state.full().ravel()]
     dephased_state = qt.Qobj(np.array(dephased_data).reshape(state.shape))
     return dephased_state
+
+
+"""
+Side project. this piece of code dephases a state and calculates its expectation values. the goal of which was to compare them to the equilibrium values.
+It already works. but i may have needed to only dephase the environment part. unsure.
+
+st=result.states[50]
+depahsed_st=random_dephasing(st)
+print(st)
+
+E_s_dephased= np.inner(np.conj(depahsed_st).T, np.matmul(H_list[2].full(),depahsed_st))
+E_int_dephased= np.inner(np.conj(depahsed_st).T, np.matmul(H_list[3].full(),depahsed_st))
+E_e_dephased= np.inner(np.conj(depahsed_st).T, np.matmul(H_list[4].full(),depahsed_st))
+
+exp_val_time_dephased = [np.abs(E_s_dephased), np.abs(E_int_dephased), np.abs(E_e_dephased)]        
+print(exp_val_time_dephased)
+
+
+"""
