@@ -82,6 +82,17 @@ def random_dephasing(state):
     dephased_state = qt.Qobj(np.array(dephased_data).reshape(state.shape))
     return dephased_state
 
+def get_state_probabilities(result, eigenstates, time_index, sys_env=0):
+
+    state = result.states[time_index]
+    if sys_env == 0:
+        density_matrix = qt.ptrace(state, [0]) # density matrix of the system
+    elif sys_env == 1:
+        density_matrix = qt.ptrace(state, [1]) # density matrix of the environment
+
+    #define a check for the denisty matrix and tyhe eigenstates being the same dimenisons
+    p = [qt.expect(density_matrix,eigenstate) for eigenstate in eigenstates]
+    return p
 
 """
 Side project. this piece of code dephases a state and calculates its expectation values. the goal of which was to compare them to the equilibrium values.

@@ -78,3 +78,32 @@ def gif_distribution_eig_total(result,eig,s_list, info_list, zoom=False,x=[0,2],
     plt.close()
 
     return path
+
+def update_prob_gif(frame, result, eigenenergies,eigenstates, ind_nb):
+    # Clear previous plot
+    p=get_state_probabilities(result, eigenstates_SHO,frame,0)
+
+    plt.clf()
+    
+    plt.plot(eigenenergies,p)
+
+    plt.title(f"Plot of the system state in its own energy eigenbasis")
+    plt.xlabel("Eigenstates of the system")
+    plt.ylabel("Schmidt Coefficients")
+
+    plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
+
+def prob_gif(result, eigenenergies,eigenstates):
+
+    # Create a figure
+    fig = plt.figure(figsize=(10, 5))
+
+    # Create the animation
+    ani = FuncAnimation(fig, update_prob_gif, fargs=(result,eigenenergies,eigenstates_SHO), frames=ind_nb, interval=100)
+
+    # Save the animation as a GIF
+    path = f'../outputs/gifs/prob_gif.gif'
+    ani.save(path, writer='pillow')
+    plt.close()
+
+    return path
