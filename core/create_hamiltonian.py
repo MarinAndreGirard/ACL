@@ -1,5 +1,6 @@
 import numpy as np
 import qutip as qt
+from operators import annihilation_operator
 
 #TODO 
 #- will need to changre all functions to the new creat_H_new
@@ -106,21 +107,28 @@ def create_H_new(d1,d2, E_s, E_s2, E_int_s, E_int_e,E_int_s2,E_int_e2,E_e, E_e2)
 
     d = d1*d2  # Total Hilbert space dimension
 
+    #Getting the creation and anihilation operators.
+    a = annihilation_operator(d1)
+    a_dag = a.conj().T
+
     #making H_s
-    diagonal_elements = np.arange(0, d1) * E_s
-    H_s_self = qt.Qobj(np.diag(diagonal_elements))
+
+#    diagonal_elements = np.arange(0, d1) * E_s
+#    H_s_self = qt.Qobj(np.diag(diagonal_elements))
+    H_s_self = qt.Qobj(np.dot(a,a_dag) * E_s)
     H_s_scale = E_s2*qt.qeye(d1)
     H_s_self= H_s_self+H_s_scale
     H_s = qt.tensor(H_s_self, qt.qeye(d2)) # Extend to full Hilbert space    
     
     #Making H_int_s
-    H_int_s = qt.Qobj(np.zeros([d1,d1]))
-    H_int_s=H_int_s.full()
-    for i in range(d1-1):
-        H_int_s[i,i+1] = np.sqrt(i+1)
-        H_int_s[i+1,i] = np.sqrt(i+1)
-    H_int_s = E_int_s*H_int_s #TODO note that E_int_s and E_s2 are related by the fact that there is a SHO. so at some point i need to change this
-    H_int_s = qt.Qobj(H_int_s)
+#    H_int_s = qt.Qobj(np.zeros([d1,d1]))
+#    H_int_s=H_int_s.full()
+#    for i in range(d1-1):
+#        H_int_s[i,i+1] = np.sqrt(i+1)
+#        H_int_s[i+1,i] = np.sqrt(i+1)
+#    H_int_s = E_int_s*H_int_s #TODO note that E_int_s and E_s2 are related by the fact that there is a SHO. so at some point i need to change this
+#    H_int_s = qt.Qobj(H_int_s)
+    H_int_s = qt.Qobj(a+a_dag) * E_int_s
     diagonal_elements = np.arange(0, d1)
     H_int_s_scaleish = E_int_s2*qt.Qobj(np.diag(diagonal_elements))
     H_int_s = H_int_s_scaleish + H_int_s
