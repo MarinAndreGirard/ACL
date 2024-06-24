@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import qutip as qt
 from matplotlib.animation import FuncAnimation
 from IPython.display import HTML
 from PIL import Image
@@ -107,3 +108,43 @@ def prob_gif(result, eigenenergies,eigenstates):
     plt.close()
 
     return path
+
+def update_distrib_H_s_int(frame,d1,result,eig_sta_int,eig_energ_int):
+    # Clear previous plot
+    plt.clf()
+    
+    state_temp = qt.ptrace(result.states[frame], [0])
+
+    weight = []
+    for i in range(d1):
+        weight.append(qt.expect(state_temp,eig_sta_int[i]))
+        #weight.append(np.abs(np.vdot(state_t0,eig_sta_int[i])))
+    plt.plot(eig_energ_int,weight)
+    plt.title(f"Plot of the system state in the eigenstates of H_int_s")
+    plt.xlabel("Position")
+    plt.ylabel("State weight")
+
+    plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
+
+def gif_distrib_H_s_int(d1,H_list,result,ind_nb, name="temp"):
+    
+    #TODO Merge that funciton with prob_gif
+
+    H_int_s=H_list[6]
+    eig_energ_int,eig_sta_int = H_int_s.eigenstates()
+
+
+
+    # Create a figure
+    fig = plt.figure(figsize=(10, 5))
+
+    # Create the animation
+    ani = FuncAnimation(fig, update_distrib_H_s_int, fargs=(d1,result,eig_sta_int,eig_energ_int), frames=ind_nb, interval=100)
+
+    # Save the animation as a GIF
+    path = f'../outputs/gifs/distrib_in_H_int_s_gif_{name}.gif'
+    ani.save(path, writer='pillow')
+    plt.close()
+
+    return path
+
