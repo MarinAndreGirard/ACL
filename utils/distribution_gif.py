@@ -123,7 +123,7 @@ def update_distrib_H_s_int(frame,d1,result,eig_sta_int,eig_energ_int):
     plt.title(f"Plot of the system state in the eigenstates of H_int_s")
     plt.xlabel("Position")
     plt.ylabel("State weight")
-
+    plt.ylim(0,0.4)
     plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
 def gif_distrib_H_s_int(d1,H_list,result,ind_nb, name="temp"):
@@ -162,7 +162,7 @@ def update_distrib_system_first_eig(frame,d1,result,eig_sta_int,eig_energ_int):
     plt.title(f"Plot of the system state in the eigenstates of H_int_s")
     plt.xlabel("Position")
     plt.ylabel("State weight")
-
+    plt.ylim(0,0.4)
     plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
 def gif_distrib_system_first_eig(d1,H_list,result,ind_nb, name="temp"):
