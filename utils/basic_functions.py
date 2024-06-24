@@ -134,4 +134,4 @@ def position(d1,H_list,state):
     for i in range(d1):
         weight.append(qt.expect(state_temp,eig_sta_int[i]))
     
-    return weight
+    return weight,eig_energ_int
