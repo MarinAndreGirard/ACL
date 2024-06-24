@@ -1,6 +1,8 @@
 import numpy as np
 import qutip as qt
 import math
+from operators import annihilation_operator
+from scipy.linalg import expm
 
 def create_state(d1,d2, H_e_self,w,envi=[0]):
     """_summary_
@@ -42,3 +44,15 @@ def create_state(d1,d2, H_e_self,w,envi=[0]):
     state = qt.tensor(state_s, state_e)
 
     return state, ket_list
+
+def create_coherent_state(d1,alpha=1j):
+    a=annihilation_operator(d1)
+    a_dag = a.conj().T
+    a_qobj = qt.Qobj(a)
+    
+    eig_ener_a,eig_states_a=a_qobj.eigenstates()
+    unic_eig=eig_states_a[0].full()
+
+    C=expm(alpha*a-alpha.conjugate()*a_dag)
+    coherent_state = qt.Qobj(np.dot(C,unic_eig))
+    return coherent_state

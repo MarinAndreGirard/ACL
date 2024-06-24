@@ -16,4 +16,3 @@ def annihilation_operator(dimension):
         a[i,i+1] = np.sqrt(i+1)
     return a
 
-
