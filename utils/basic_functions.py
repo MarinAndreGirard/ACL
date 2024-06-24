@@ -2,6 +2,8 @@ import numpy as np
 import qutip as qt
 import math
 import matplotlib.pyplot as plt
+from scipy.linalg import expm
+
 
 #This is a set of basic functions that output basic quantities useful fo rplotting the main quantities of interest
 
@@ -118,3 +120,18 @@ print(exp_val_time_dephased)
 
 
 """
+
+def position(d1,H_list,state):
+
+    H_int_s=H_list[6]
+    eig_energ_int,eig_sta_int = H_int_s.eigenstates()
+
+
+    state_temp=state
+    #state_temp = qt.ptrace(result.states[frame], [0])
+
+    weight = []
+    for i in range(d1):
+        weight.append(qt.expect(state_temp,eig_sta_int[i]))
+    
+    return weight
