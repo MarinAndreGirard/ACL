@@ -135,3 +135,75 @@ def position(d1,H_list,state):
         weight.append(qt.expect(state_temp,eig_sta_int[i]))
     
     return weight,eig_energ_int
+
+
+
+def copy_cat(d1,result,H_list,tlist,ind_1,ind_2,ind_3):
+    #TODO clean    
+    #1
+    rho=result.states[ind_1]
+    rho_s=qt.ptrace(rho,[0])
+    eigenenergies,eigenstates=rho_s.eigenstates()
+    l=len(eigenenergies)-1
+    eig_1=eigenstates[l]
+    eig_2=eigenstates[l-1]
+    density_eig_1=eig_1*eig_1.dag()
+    density_eig_2=eig_2*eig_2.dag()
+
+    x1,eigenenergies=position(d1,H_list,density_eig_1)
+    x2,eigenenergies=position(d1,H_list,density_eig_2)
+
+    #2
+    rho=result.states[ind_2]
+    rho_s=qt.ptrace(rho,[0])
+    eigenenergies,eigenstates=rho_s.eigenstates()
+    l=len(eigenenergies)-1
+    eig_1=eigenstates[l]
+    eig_2=eigenstates[l-1]
+    density_eig_1=eig_1*eig_1.dag()
+    density_eig_2=eig_2*eig_2.dag()
+
+    x3,eigenenergies=position(d1,H_list,density_eig_1)
+    x4,eigenenergies=position(d1,H_list,density_eig_2)
+
+    #3
+    rho=result.states[ind_3]
+    rho_s=qt.ptrace(rho,[0])
+    eigenenergies,eigenstates=rho_s.eigenstates()
+    l=len(eigenenergies)-1
+    eig_1=eigenstates[l]
+    eig_2=eigenstates[l-1]
+    density_eig_1=eig_1*eig_1.dag()
+    density_eig_2=eig_2*eig_2.dag()
+    
+    x5,eigenenergies=position(d1,H_list,density_eig_1)
+    x6,eigenenergies=position(d1,H_list,density_eig_2)
+
+    # Create a figure with three rows and two columns
+    fig, axes = plt.subplots(3, 2, figsize=(10, 15))
+
+    # Plot the first row
+    axes[0, 0].plot(eigenenergies, x1,label=f't = {round(tlist[ind_1])}')
+    axes[0, 0].set_title('First eigenstate')
+    
+    axes[0, 1].plot(eigenenergies, x2,label=f't = {round(tlist[ind_1])}')
+    axes[0, 1].set_title('Second eigenstate')
+
+    # Plot the second row
+    axes[1, 0].plot(eigenenergies, x3,label=f't = {round(tlist[ind_2])}')
+    axes[1, 1].plot(eigenenergies, x4,label=f't = {round(tlist[ind_2])}')
+
+    # Plot the third row
+    axes[2, 0].plot(eigenenergies, x5,label=f't = {round(tlist[ind_3])}')
+    axes[0, 0].set_xlabel('Position')
+    axes[2, 1].plot(eigenenergies, x6,label=f't = {round(tlist[ind_3])}')
+    axes[0, 0].set_xlabel('Position')
+    for i in range(3):
+        for j in range(2):
+            axes[i, j].legend(loc='upper right')
+
+    # Adjust the spacing between subplots
+    plt.tight_layout()
+
+    # Show the plot
+    plt.show()
