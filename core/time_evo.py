@@ -263,6 +263,7 @@ def load_param(file_name):
     Returns:
         d1, d2, E_s, E_s2, E_int_s, E_int_e, E_int_s2, E_int_e2, E_e, E_e2, w, envi, tmax, ind_nb, log, tlist, result, H_list, state_list, info_list: variables recovered from the file.
     """
+    #outputs_dir = "outputs/simulation_results"
     outputs_dir = "outputs/simulation_results"
     params_file_path = os.path.join(outputs_dir, "params_" + file_name)
     #result_file_path = os.path.join(outputs_dir, "result_" + file_name)
