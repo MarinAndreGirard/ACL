@@ -4,13 +4,14 @@ import qutip as qt
 # this file will contain funciton for returning the expectation values of the various Hamiltonians in time.
 
 
-def exp_val(state, H_list, tlist):
+
+def exp_val(state, H_list):
     exp_val_time = []
-    
-    E_tot=qt.expect(H_list[1],result.states[i])
-    E_s=qt.expect(H_list[2],result.states[i])
-    E_int=qt.expect(H_list[3],result.states[i])
-    E_e=qt.expect(H_list[4],result.states[i])
+
+    E_tot = np.vdot(state.full(), np.dot(H_list[1].full(), state.full()))
+    E_s = np.vdot(state.full(), np.dot(H_list[2].full(), state.full()))
+    E_int = np.vdot(state.full(), np.dot(H_list[3].full(), state.full()))
+    E_e = np.vdot(state.full(), np.dot(H_list[4].full(), state.full()))
 
     exp_val_time = [E_tot, E_s, E_int, E_e]        
     return exp_val_time

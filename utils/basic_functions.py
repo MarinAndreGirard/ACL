@@ -78,6 +78,21 @@ def Neff(result,eig):
 
     return Neff,eigenenergies_total
 
+def random_dephasing_energy_basis(state,H_list):
+    #takes state in b basis, expresses it in energy basis dephases it, re-expresses it in the b basis and returns it.
+    d=H_list[0]
+    H=H_list[1]
+    eigenenergies,eigenstates=H.eigenstates()
+    state_in_energy=[]
+    for i in range(d):
+        w=eigenstates[i].dag()*state
+        w=w*np.exp(1j * np.random.uniform(0, 2*np.pi))
+        state_in_energy.append(w.full().ravel())
+    state_in_energy = np.array(state_in_energy)
+    #for i in range(d):
+    #    ...*state_in_energy
+    #big problem of tryi ng to change the basis back.
+    return state_in_energy
 
 def random_dephasing(state):
     dephased_data = [elem * np.exp(1j * np.random.uniform(0, 2*np.pi)) for elem in state.full().ravel()]
