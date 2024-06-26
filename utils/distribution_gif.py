@@ -162,7 +162,7 @@ def update_distrib_system_first_eig(frame,d1,result,eig_sta_int,eig_energ_int):
     plt.title(f"Plot of the system state in the eigenstates of H_int_s")
     plt.xlabel("Position")
     plt.ylabel("State weight")
-    plt.ylim(0,0.4)
+    plt.ylim(0, max(weight))
     plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
 def gif_distrib_system_first_eig(d1,H_list,result,ind_nb, name="temp"):
@@ -177,6 +177,48 @@ def gif_distrib_system_first_eig(d1,H_list,result,ind_nb, name="temp"):
 
     # Create the animation
     ani = FuncAnimation(fig, update_distrib_system_first_eig, fargs=(d1,result,eig_sta_int,eig_energ_int), frames=ind_nb, interval=100)
+
+    # Save the animation as a GIF
+    path = f'../outputs/gifs/rho_s_first_eig_distrib_in_H_int_s_gif_{name}.gif'
+    ani.save(path, writer='pillow')
+    plt.close()
+
+    return path
+
+def update_distrib_system_first_second(frame,d1,result,eig_sta_int,eig_energ_int):
+    # Clear previous plot
+    plt.clf()
+    rho_s=qt.ptrace(result.states[frame], [0])
+    eigen_ener,eigenstates=rho_s.eigenstates()
+    
+    state_temp_1 = qt.Qobj(eigenstates[-1])*qt.Qobj((eigenstates[-1])).dag()
+    state_temp_2 = qt.Qobj(eigenstates[d1-4])*qt.Qobj((eigenstates[d1-4])).dag()
+    weight_1 = []
+    weight_2 = []
+    for i in range(d1):
+        weight_1.append(qt.expect(state_temp_1,eig_sta_int[i]))
+        weight_2.append(qt.expect(state_temp_2,eig_sta_int[i]))
+        #weight.append(np.abs(np.vdot(state_t0,eig_sta_int[i])))
+    plt.plot(eig_energ_int,weight_1)
+    plt.plot(eig_energ_int,weight_2)
+    plt.title(f"Plot of the classical system states in the eigenstates of H_int_s")
+    plt.xlabel("Position")
+    plt.ylabel("State weight")
+    plt.ylim(0, max(max(weight_1), max(weight_2)))
+    plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
+
+def gif_distrib_system_first_second(d1,H_list,result,ind_nb, name="temp"):
+    
+    #TODO Merge that funciton with prob_gif
+
+    H_int_s=H_list[6]
+    eig_energ_int,eig_sta_int = H_int_s.eigenstates()
+
+    # Create a figure
+    fig = plt.figure(figsize=(10, 5))
+
+    # Create the animation
+    ani = FuncAnimation(fig, update_distrib_system_first_second, fargs=(d1,result,eig_sta_int,eig_energ_int), frames=ind_nb, interval=100)
 
     # Save the animation as a GIF
     path = f'../outputs/gifs/rho_s_first_eig_distrib_in_H_int_s_gif_{name}.gif'
