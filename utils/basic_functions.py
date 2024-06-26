@@ -198,21 +198,21 @@ def copy_cat(d1,result,H_list,tlist,ind_1,ind_2,ind_3):
     fig, axes = plt.subplots(3, 2, figsize=(6, 6))
 
     # Plot the first row
-    axes[0, 0].plot(eigenenergies, x1,label=f't = {round(tlist[ind_1])}')
+    axes[0, 0].plot(eigenenergies, x1,label=f't = {round(tlist[ind_1],2)}')
     axes[0, 0].set_title('First eigenstate')
     
-    axes[0, 1].plot(eigenenergies, x2,label=f't = {round(tlist[ind_1])}')
+    axes[0, 1].plot(eigenenergies, x2,label=f't = {round(tlist[ind_1],2)}')
     axes[0, 1].set_title('Second eigenstate')
 
     # Plot the second row
-    axes[1, 0].plot(eigenenergies, x3,label=f't = {round(tlist[ind_2])}')
-    axes[1, 1].plot(eigenenergies, x4,label=f't = {round(tlist[ind_2])}')
+    axes[1, 0].plot(eigenenergies, x3,label=f't = {round(tlist[ind_2],2)}')
+    axes[1, 1].plot(eigenenergies, x4,label=f't = {round(tlist[ind_2],2)}')
 
     # Plot the third row
-    axes[2, 0].plot(eigenenergies, x5,label=f't = {round(tlist[ind_3])}')
-    axes[0, 0].set_xlabel('Position')
-    axes[2, 1].plot(eigenenergies, x6,label=f't = {round(tlist[ind_3])}')
-    axes[0, 0].set_xlabel('Position')
+    axes[2, 0].plot(eigenenergies, x5,label=f't = {round(tlist[ind_3],2)}')
+    axes[2, 0].set_xlabel('Position')
+    axes[2, 1].plot(eigenenergies, x6,label=f't = {round(tlist[ind_3],2)}')
+    axes[2, 1].set_xlabel('Position')
     for i in range(3):
         for j in range(2):
             axes[i, j].legend(loc='upper right')
@@ -239,3 +239,22 @@ def plot_einselection(result,ind_nb,d1):
     plt.ylabel('Eigenenergy')
     plt.legend(['eigenvalue 1', 'eigenvalue 2'])
     plt.xscale('log')
+
+
+def sum_real_off_diagonal_components(result,tlist):
+    rho_s_list=[]
+    for i in range(len(tlist)):
+        rho_s=qt.ptrace(result.states[i], [0])
+        rho_s_list.append(rho_s)
+
+    sums = []
+    for rho_s in rho_s_list:
+        real_off_diagonal_sum = np.abs(np.sum(np.real(rho_s.full()) - np.real(np.diag(np.diag(rho_s.full())))))
+        #print(real_off_diagonal_sum)
+        sums.append(real_off_diagonal_sum)
+    plt.plot(tlist,sums)
+    plt.title('Reversible fluctuations in einselection')
+    plt.xlabel('time')
+    plt.ylabel('real off-diagonal terms')
+
+    return sums

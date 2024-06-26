@@ -1,5 +1,5 @@
 import qutip as qt
-
+import numpy as np
 
 # this file will contain funciton for returning the expectation values of the various Hamiltonians in time.
 
