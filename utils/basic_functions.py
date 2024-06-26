@@ -235,4 +235,7 @@ def plot_einselection(result,ind_nb,d1):
 
     plt.plot(eigenenergies1_list)
     plt.plot(eigenenergies2_list)
+    plt.xlabel('Time step')
+    plt.ylabel('Eigenenergy')
+    plt.legend(['eigenvalue 1', 'eigenvalue 2'])
     plt.xscale('log')
