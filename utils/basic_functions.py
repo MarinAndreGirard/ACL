@@ -195,7 +195,7 @@ def copy_cat(d1,result,H_list,tlist,ind_1,ind_2,ind_3):
     x6,eigenenergies=position(d1,H_list,density_eig_2)
 
     # Create a figure with three rows and two columns
-    fig, axes = plt.subplots(3, 2, figsize=(10, 15))
+    fig, axes = plt.subplots(3, 2, figsize=(6, 6))
 
     # Plot the first row
     axes[0, 0].plot(eigenenergies, x1,label=f't = {round(tlist[ind_1])}')

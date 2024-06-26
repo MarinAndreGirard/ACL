@@ -57,7 +57,7 @@ def update(frames,result,eigenstates_total,eigenenergies_total,s_full_list,info_
     # Add clock
     plt.text(0.95, 0.95, f"Frame: {frames}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
-def gif_distribution_eig_total(result,eig,s_list, info_list, zoom=False,x=[0,2],y=[0,0.05]): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
+def gif_distribution_eig_total(result,eig,s_list, name, zoom=False,x=[0,2],y=[0,0.05]): #EI,w,result,eigenstates_total,eigenenergies_total,env,d1,d2,E_spacing,tmax,ind_nb
     
     #Get the necessary information
     eigenstates_total=eig[1]
@@ -74,7 +74,7 @@ def gif_distribution_eig_total(result,eig,s_list, info_list, zoom=False,x=[0,2],
     ani = FuncAnimation(fig, update,fargs=(result,eigenstates_total,eigenenergies_total,s_full_list,info_list,zoom,x,y), frames=ind_nb-1, interval=100)
 
     # Save the animation as a GIF
-    path = f'../outputs/gifs/distrib_param_{info_list}_zoom_{zoom}.gif'
+    path = f'../outputs/gifs/distrib_eig_total_{name}_zoom_{zoom}.gif'
     ani.save(path, writer='pillow')
     plt.close()
 
