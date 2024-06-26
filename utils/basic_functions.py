@@ -222,3 +222,17 @@ def copy_cat(d1,result,H_list,tlist,ind_1,ind_2,ind_3):
 
     # Show the plot
     plt.show()
+
+def plot_einselection(result,ind_nb,d1):
+    eigenenergies1_list=[]
+    eigenenergies2_list=[]
+
+    for i in range(ind_nb):
+        rho_s=qt.ptrace(result.states[i], [0])
+        eigenenergies, eigenstates = rho_s.eigenstates()
+        eigenenergies1_list.append(eigenenergies[d1-1])
+        eigenenergies2_list.append(eigenenergies[d1-2])
+
+    plt.plot(eigenenergies1_list)
+    plt.plot(eigenenergies2_list)
+    plt.xscale('log')
