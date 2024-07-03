@@ -1,0 +1,322 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{braket}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=2cm]{geometry} % Adjust the value of "2cm" to your desired margin size
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{comment}
+
+\begin{document}
+
+
+
+\section{Energy non-conservation in Sean Carroll's paper}
+Sean carroll shows energy non-conservation by constructing a simple example, with $\mathcal{H}=\mathcal{H}_s\otimes\mathcal{H}_e$ and $\mathcal{H}_s=span\{|1\rangle,|2\rangle\}$ $\mathcal{H}_e=span\{|1\rangle,|2\rangle,|3\rangle\}$. The the Hamiltonian is constructed such that,
+\begin{align}
+    |\psi(0)\rangle&=(\alpha|1\rangle+\beta|2\rangle)|0\rangle\\
+    |\psi(1)\rangle&=\alpha|1\rangle|1\rangle+\beta|1\rangle|2\rangle
+\end{align}
+as well as $|1\rangle|1\rangle$ an eigenstate with energy $E_1$ and $|2\rangle|2\rangle$ an eigenstate with energy $E_2$.
+
+\begin{comment}
+He suggests an experiment, with a particle in a magnetic field ndergoing spin interaction with another particle passing by. this second particle is then measured. the idea is to start p1 in a superposition of spins (and so energies, being in a magnetic field). by interaction with the passing p2 entangle them. measure p2 collapsing p1 and making the system change from 0 (avg) to 2 worlds of +-E the spin energy in B. 
+
+\begin{align}
+    |\psi(t_0)\rangle&=(|\downarrow\rangle+|\uparrow\rangle)|e\rangle=|w_0\rangle\\
+    &\rightarrow|\downarrow\rangle|e_1'\rangle+|\uparrow\rangle|e_2'\rangle=|w_1\rangle+|w_2\rangle
+\end{align}
+\end{comment}
+
+\paragraph{But Sean Carroll never considers the preparation of the quantum superposition.} We see a scenario where we try to prepare a superposition of different energy eigenstates. 
+
+\subsection{The battery pendulum}
+
+\subsubsection{The scenario in words, Schroedinger's battery-pendulum}
+
+An isolated system contains a radioactive isotope connected to a detector, closing the circuit between a full battery and an excitable pendulum at rest. After a while, there was 1/2 chance of a decay happening and being detected, thus causing the battery to empty by exciting the pendulum. The other chance is that nothing happens (battery full and pendulum at rest). Considering only the pendulum, we see that we have a system in a superposition of 2 states which have different energies, potentially causing 2 worlds with different energies after measurement. But considering the entangled battery, the energy of both worlds will actually be the same after measurement. World 1 = excited pendulum + empty battery. World 2 = pendulum at rest + full battery 
+
+\subsubsection{More formally}
+We take our radioactive atom as just a qubit in a superposition of state (we can prepare this via optics). Our pendulum at rest is $|\downarrow\rangle$ and excited is $|\uparrow\rangle$. The full battery is $|b_f\rangle$, the empty battery is $|b_e\rangle$. The environment outside of the box starts as $|e\rangle$.
+\begin{align}
+    |\psi(t_0)\rangle&=(|0\rangle+|1\rangle)|\downarrow\rangle|b_f\rangle|e\rangle\\
+    |\psi(t_1)\rangle&=(|0\rangle|\downarrow\rangle|b_f\rangle+|1\rangle|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_1)\rangle&=(|\downarrow\rangle|b_f\rangle+|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_2)\rangle&=|\downarrow\rangle|b_f\rangle|e_1\rangle+|\uparrow\rangle|b_e\rangle|e_2\rangle
+\end{align}
+At $t_0$, the qubit is ready in a superposition and the battery+pendulum starts full + at rest. At time $t_1$, by interaction, the qubit has places the pendulum+battery in a superposition. We consider the qubit state as part of the battery . At $t_2$ we opened the box and decoherence caused the wavefucntion to branch, leaving 2 worlds with conserved energy.
+
+\paragraph{Making it work.} Does adding an intermediary step allows for non-conservation?
+\begin{align}
+    |\psi(t_0)\rangle&=(|0\rangle+|1\rangle)|\downarrow\rangle|b_f\rangle|e\rangle\\
+    |\psi(t_1)\rangle&=(|0\rangle|\downarrow\rangle|b_f\rangle+|1\rangle|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_1)\rangle&=(|\downarrow\rangle|b_f\rangle+|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_2')\rangle&=(|\downarrow\rangle+|\uparrow\rangle)|e'\rangle\\
+    |\psi(t_3')\rangle&=|\downarrow\rangle|e_1'\rangle+|\uparrow\rangle|e_2'\rangle
+\end{align}
+We change things at $t_2'$ asking that the battery decoheres without branching the pendulum state such that we \textbf{recover a separable state with a superposition of pendulum energy state and a unique environment state}. Then at $t_3'$, we open the box and branch into two worlds with different energies.\\
+
+For this to work, we need $e^{-itH_1}|b_f\rangle|e\rangle\approx e^{-itH_2}|b_e\rangle|e\rangle$, for $t\geq t_2$ even thought $\langle b_f|b_e\rangle\approx0$. Why is that a tall order? $|b_f\rangle$ and $|b_e\rangle$ are macroscopically different objects that we ask evolve to close to the same object at a later time.
+
+\subsection{Next step/solution}
+
+\begin{itemize}
+    \item Working only to creat a tiny energy difference requiring a tiny battery, could makes step $t_2'$ a lot less impossible.
+    \item Show that system size/energy difference acts as a protection to energy non-conservation
+    
+\end{itemize}
+
+in notes it is like this:
+- Project 2: Energy conservation: I) what initial state does Sean carroll start with and what hamiltonian is necessary to create that state. ii) Study the James cunning model in creating energy superpositions. Is energy conservation respected? Can that state indeed be created? iii) Learn about resource theory of quantum thermodynamics, see if there is a necessary ressource in creating a superposition of energy levels. iv) read the paper that says that you can’t create energy superpositions. V) think about tiny battery argument and how size of the system intervenes. Show that system size acts as protector for it not happening. Vi) What about value of the energy difference? Can you find a law that relates energy difference of the superposition and level of fine tuning required? 
+
+
+
+\section{Creating a superposition of energies such that branching violates energy conservation}
+
+\textbf{Can we create a system that when measured results in worlds with different energies?} Sean Carroll argues yes, but does not explain how to achieve the necessary initial state $|\psi\rangle=(|\downarrow\rangle+|\downarrow\rangle)|e\rangle$. 
+
+\textbf{Can we create Sean Carroll's initial state?} A system in a superposition of 2 energy states, such that when measured we observe either one.
+
+\textbf{Can we create another system+env such that energy is violated?}
+
+-----
+The question is: from a state $|\psi(t_0)\rangle=|\downarrow\rangle|coherence?\rangle|battery?\rangle|e\rangle$, can I get $|\psi(t_1)\rangle=(|\uparrow\rangle+|\downarrow\rangle)|e'\rangle$, so that there is then a $t_2$ where decoherence has happened and $|\psi(t_2)\rangle=(|\uparrow\rangle|e_1'\rangle+|\downarrow\rangle|e_2'\rangle$ with energy violation in branching.
+
+conclusion 1: the jaynes cummings model does not allow that.
+conclusion 2: coherence is needed to create energy superpositions.
+conclusion 3: (answer to, can we use it to get energy violation?)
+
+Contradictions i am working with: With my block diagonal example, i can easily get 2 worlds to be energy violating. Experimentally we create systems in superpositions of energy eigenstates. In theory, without decoherence it is impossible to create a superposition of states. In theory, even with coherence, I am not sure if we can create a system in superposition of energy eigenstates, such that when considering everything, we actually have energy violation of worlds.
+
+Resolving the block diagonal ease of making energy violating worlds: I am starting with energy superposition?
+
+We cannot turn a system in a definit energy state into a system in an energy superposition. Yet we regularly creat systems in an energy superpositions in the lab.
+----
+
+Multiple ideas: 
+-The Jaynes-Cummings model does not help
+-We cant make energy superpositions?
+-We can make enrgy superpositions using coherence? 
+-Using decoherence to make energy superpositions?
+-We dot have to create Sean Caroll's state? its ok if the other superposition is in the environment? somehow? -Now a question would be: Can i take that photon out into the environment without collapsing the atom superposition? Therefor creating a real energy state superposition? 
+-the battery superposition needs to be a pointer state of the environment.
+-something about how, in the ACL model, looking at graphs that show the system and environments exchange energy, is a very clear demo that the energy structure of the system and the environment can change. (leads to question, how does the distribution in the basis of E and S change as we go to equilibrium?)
+-The quantum environment solution: the environment can be composed of systems that are in a superposition. not every atom needs to be in an exact collapsed position in our world. there is some non-classical fuzyness everywhere around us. That quantumness acts as a reservoir that is tapped in when we make superpositions of states somwhow (ie when we apply an H gate...)
+-small battery idea.
+-can i somehow show that my simple example is generalizable? 
+-Maybe there is a demo to do where i show that you cant not have a battery...
+-Definitely something about the diagonal form vs the non-diagonal form =, ie with self interaction of the system.
+
+\subsection{Using the Jaynes-Cummings model}
+A quantum optics model describing 2 level atom interacting with photon in cavity.
+
+The system has an atom with 2 energy levels with hamiltonian 
+\begin{equation}
+    H_A=E_e|e\rangle\langle e|
+\end{equation}
+Note that $E_g=0$ for simplicity.
+There is also a photon field with, 
+\begin{equation}
+    H_F=\hbar\omega(aa^{\dagger})
+\end{equation}
+Note that we remove the constant scale factor for simplicity.
+And then there is an interaction Hamiltonian, which after simplification only contains terms relating to de-excitation into a photon and excitation by absorption of a photon,.
+\begin{equation}
+    H_{AF}=\hbar g(\sigma^{+}a+\sigma^-a^{\dagger})
+\end{equation}
+
+We have $H_{JC}=H_A+H_F+H_{AF}$, and a bit of maths tells us, is that the energy eigenstates of this system are,
+\begin{align}
+    |n,+\rangle=cos(\theta_n/2)|e,n-1\rangle+sin(\theta_n/2)|g,n\rangle\\
+    |n,-\rangle=cos(\theta_n/2)|g,n\rangle-sin(\theta_n/2)|e,n-1\rangle
+\end{align}
+where $n$ is the number of photon modes, $e$ is the excited atom state, $g$ the atom ground state. So the eigenstates of the system don't have an atom either in the ground state or in the excited state. This means that if the system starts in a state where the atom is just in the excited state, it will evolve to a superposition of excited and ground state atoms. Simply put, \textbf{The eigenstates of $H_{JC}$ are superpositions of eigenstates of $H_A$}. But we cannot create Sean Carroll's initial state, \textbf{the photon acts as the battery in the thought experiment.}\\
+
+\subsubsection{A JC model that doesn't conserve energy?}
+\textbf{The energy is conserved in branching, because the pointer states of the system have the same energy as the initial state of the system.}
+
+If the pointer states of the environment where the energy eigenstates of the cavity, we would have energy non-conservation in branching
+
+To do that we need the interaction between the cavity and the environment to be,
+\begin{equation}
+    H_{JC,env}=|g,n\rangle\langle g,n|\otimes H^{(1)}_{e}+|e,n-1\rangle\langle e,n-1|\otimes H^{(2)}_{e}
+\end{equation}
+as long as the $H_e$ matrices cause decoherence.
+
+\textbf{What is the interaction of the environment and an atom? I assume it is such that the pointer states are atoms of definite energy? Why? Is it because the environment is mainly made of other atoms?}
+
+Somehow, the JC model evolution causes us to go from 1 pointer state to 2 pointer states, but they have the same energy. Why?
+the interactions between the electric field and the atom field are energy preserving. so the states that entangle together have exchanged energy, making it constant with entangled states.
+
+--if the interaction hamiltonian doesnt commute with either self interaction hamiltonian, then we get exchange of energy between field 1 and field 2. see thermalization graph for the ACL model
+--if field 1 commutes with the interaction hamiltonian, then the energy of field 1 is constant in both worlds. Can you get exchange of energy between worlds? see graphs with schmidt states
+
+To make a similar model, just create 2 fields with a self interaction Hamiltonian each, then create an interaction Hamiltonian that doesn't commute with either. what if it commutes with one of them? do i get energy violation then?
+
+
+
+\subsection{Making a superposition (using coherence)}
+A more quantum info view. 2 papers: "Catalytic coherence" and "Is coherence catalytic?"
+
+Making a superposition unitarly is non-trivial. For example, there is no $U$ unitary such that $U|00\rangle=\frac{1}{\sqrt{2}}|0\rangle(|0\rangle+|1\rangle)$. We can see this by attempting to construct $U$. In the $\{|00\rangle,|01\rangle,|10\rangle,|11\rangle\}$ basis, we can figure out the necessary part of $U$. (A dot is a un-specified value)
+\begin{align}
+    U|00\rangle=
+    \begin{pmatrix}
+        \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 0 & 0\\
+        \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} & . & .\\
+        0 & . & . & .\\
+        0 & . & . & .
+    \end{pmatrix}
+    \begin{pmatrix}
+        1\\
+        0\\
+        0\\
+        0
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \frac{1}{\sqrt{2}}\\
+        \frac{1}{\sqrt{2}}\\
+        0\\
+        0
+    \end{pmatrix}
+\end{align}
+Next we check if this matrix could be unitary,
+\begin{equation}
+    UU^{\dagger}=
+    \begin{pmatrix}
+        1 & 1 & . & .\\
+        1 & . & . & .\\
+        . & . & . & .\\
+        . & . & . & .
+    \end{pmatrix}
+\end{equation}
+What we find is that $U$ cannot be unitary.
+Note that a unitary matrix is hermitian, which was used to fix $U_{11}$
+
+Does the first qubit need to become a superposition to make the second one into a superposition?
+This woudl seem to generate coherence.... which is weird.
+
+Is my battery example possible? Or am i breaking coherence conservation laws?
+
+
+
+Basically coherence is a resource used in making superposition of states. 
+
+TODO demo of what happens when you make a superposition. demo of does creating a 2 superposoitions make the 2 pure states making the mixed state have same enrgy? 
+
+
+Proof: of what?
+there is a conservation of the number of energy eigenstates with non-zero weight. but there is not conservation of the number of system eigenstaet, or environmenrt eigenstaets, I need an interactio term for that. is there something there?
+
+\subsubsection{From reading these papers}
+coherence can be used to make a system go from a definit energy state to a superposition of 2 energy states. But this is done by also varying the energy of the environment showing energy conservation. 
+
+\paragraph{Can I modify the example to make it violate energy conservation in branching?} the example doesn't really create a Hamiltonian and then do unitary evolution, its a free operations thing. When i tried to creat a Hamiltonian that does violate energy conservation using coherence as a resource, I failed. TODO, demo impossibility: Show conservation of energy in the pure states that come out of using coherence to make decoherence. (the pointer states., not psi0 and psi1 are the pointer states in that situation.)
+
+\paragraph{Coherence made simple}
+TODO: I think this all boils down to the observation that to make a superposition, you actually need to make 2 superpositions (and you entangle them in the process.) That might be a superintersting result. 
+
+
+TODO: clear definition of coherence.
+TODO measure of coherence.
+
+ressource theory = free operation
+maximally mixed state + any fee operation = set of free states
+leftover states = ressource.
+
+so what are the free operations of coherence, and what are the free states? do they contain superposition of states?
+
+coherence is a basis dependent ressource, so start by setting a basis
+
+why is coherence related to superposition? because, it is the phase relationships between parts of the system, superp of 1 and 0, with a phase diff, if the phase diff is well defiend, we have coherence. 
+so in pure states its clear, but in density matrices: each pure states have perfect coherence, but a mixt state is a probabiltistic sum of pure states, so you loose that perfect known phase relationship between elements of your system
+
+loss of coherence by coupling to an environment, and the states interacting differently...
+
+Coherences: 
+For,
+\begin{align}
+    |\psi\rangle =a|0\rangle+be^{i\theta}|1\rangle\\
+    |\psi'\rangle =e^{i\phi}(a'|0\rangle+b'e^{i\theta'}|1\rangle)\\
+\end{align}
+in $|\psi\rangle$ there is perfect coherence between $|0\rangle$and $|1\rangle$ (for $\theta$ well defined). Defining $|\phi\rangle=|\psi\rangle+|\phi'\rangle$, with $\theta, \theta', \phi=0$ the probabilities add up classically. But with non-zero phases, they dont. Without coherence between states (ie non-zero controlled phase relations) we loose things like entanglement that make the probabilities non-classical.
+
+In density matrices: A state is classical if it is diagonal in the pointer basis. thus a measure of coherence are the diagonal terms.
+
+Measures of coherence: Needs to be positive, monotone, strong monotonicity, ... a few other things. 
+There are multiple choices: \textbf{distillable coherence} is a measure of how many maximally coherent states can be generated with a state.
+
+maximally coherent state $\sum_{i}|i\rangle$. 
+incoherent density matrices: $\rangle p_i|i\rangle\langle i|$ (diagonal matrices.)
+
+The idea of coherence being needed to make a quantum superposition is: Starting from a classical state (ie not a superposition), do you think we can make it non-classical by acting classically on it? Obviously the answer to that is no, so we need to get our quantumness (coherence) somewhere else. 
+(TODO: This leads me to the fact that this is an issue for all non-catalytic resources. If our world is classical, where is the quantumness? How do we concentrate it to use in quantum computers? We mostly never creat a quantum resource, then how "lasers"?) (ZOE question)
+
+The idea of coherence as a ressource needed to make a superposition of state is that making a superposition is controlling the relative phase between states! To make a definit state into a knwon superposition of states, I need a state with fixed and known phase relations. If I had a mixture of states with known phase relations, then the creation of my superposition would be probabilistic, or would make a mixed state of different superpositions.
+
+Note that coherence is defined in a basis. (and then in that basis is defined the dephasing operator)
+
+
+the catylic coherence paper states clearly that i need my initial qubit superposition to make my energy superposition. ie, its my coherence reservoir
+
+TODO: spell out your simple example of it using coherence. ie calculate coherence.
+\paragraph{We show that our previous example was about using the coherence ressource of a qubit, to make a superposition of energy states. (which still didn't lead to energy violation.)}
+We start with a qubit in a superposition $\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)$. In the $|0\rangle,|1\rangle$ basis this state $\rho_q=Tr_e[(|0\rangle+|1\rangle)|e'\rangle(\langle0|+\langle1|)\langle e'|]$ is the maximally coherent state,
+\begin{equation}
+    C_d(\rho_q)=S(\Delta[\rho_q])-S(\rho_q)=1
+\end{equation}
+With $|'e\rangle=|\downarrow\rangle|b_f\rangle|e\rangle$, and interaction such that $|\psi(t_2)\rangle=$
+
+\subsubsection{How is Coherence not catalytic}
+TODO make clear
+It is firstly not catalytic because the state of the environment changes. It is "apparently" catlaytic because even thoght it chanegs, we can still re-use it to creat a another superposition just like the first one, and the resulting environment state is just as coherent as the initial one even if different.
+
+But these 2 reasons why it is catalytic neglect entanglemenet. Entanglement between the env and sys but also between the qubit superpositions that are created.
+
+In other words. what the original paper shows, is that you can use your coherent env state to creat a qubit superposition, and another and ... however many you want. So great, catalytic coherence. What the second paper shows is that this is neglecting to consider the entanglement between the qubit superpositions that is created, and that considering that, one of the low probability events can cause the coherent source to fully loose its coherence
+
+\subsubsection{How do these papers relate to my problem of studying energy violation in measurements}
+
+Note that the paper on catylitic coherence says: "Look, with coherence i can make a system in an superposition of energy eigenstate from a definnite energy state." But considering the environment, we still dont get energy violation
+
+TODO quick calculation of why in the paper energy is conserved.
+
+\subsubsection{Creating a superposition of state}
+
+\subsection{What about the block diagonal case?}
+TODO
+When i think about the block diagonal thing there is no coherence being created or anything, its a sitation that is setup to creat theses 2 worlds with energy non-conservation. when i think about the pendulum superposition, then its a classical world, where i try to creat a quantum quantity... 
+
+We start with the superposition.
+
+\subsection{So in conclusion I have to assume access to quantumness in a classical world in the form of a coherence reservoir... Then from this I need to see if i can creat sean carroll's state. then I have to see if i can creat the block diagonal situation.}
+
+
+one of my issue is thinking of the environment as a fully separbl state. ie a classical state in the extrem. but thats not it.
+
+
+\subsection{Thinking pointer states}
+Idea: If we make the superposition of state the pointer state of the environment, then isoalte it, then change the environment such that the pointer state now is an energy eigenstate. then we have a situation where we can violate energy conservation./ a situtation where we can get sean carroll's initial state. 
+The funny thing is that we woudl have dont it all by decoherence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
