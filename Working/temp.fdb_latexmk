@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1720473238 "/Users/maringirard/Dev/ACL/working/temp.tex" "temp.pdf" "temp" 1720473242 2
-  "/Users/maringirard/Dev/ACL/working/temp.tex" 1720473234 25782 145b150db6bb46cb2de6f61e826e3f49 ""
+["pdflatex"] 1720602225 "/Users/maringirard/Dev/ACL/working/temp.tex" "temp.pdf" "temp" 1720602227 2
+  "/Users/maringirard/Dev/ACL/working/temp.tex" 1720602222 28408 84833a25ea2a8487605bd9e042983e74 ""
   "/Users/maringirard/Library/texlive/2023/texmf-var/fonts/pk/ljfour/public/bbm/bbm10.600pk" 1709759331 6964 763ca39fd04c19927dffe682f215b726 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -95,9 +95,9 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1709404631 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1709404453 7883447 9a663140eda5e9d08d5a0a1b8200eb12 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "temp.aux" 1720473241 3316 aab2c5fa437ae9631e762b996a6c3b35 "pdflatex"
-  "temp.out" 1720473241 4274 cb1f147e299d219f70e18cf366fb34d1 "pdflatex"
-  "temp.tex" 1720473234 25782 145b150db6bb46cb2de6f61e826e3f49 ""
+  "temp.aux" 1720602227 3316 d3ac8a27d7003be29f4cf8c5fae3f705 "pdflatex"
+  "temp.out" 1720602227 4274 cb1f147e299d219f70e18cf366fb34d1 "pdflatex"
+  "temp.tex" 1720602222 28408 84833a25ea2a8487605bd9e042983e74 ""
   (generated)
   "temp.aux"
   "temp.log"

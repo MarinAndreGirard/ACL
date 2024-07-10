@@ -74,6 +74,12 @@ in notes it is like this:
 
 
 
+thought to devellope: 
+-coherence is not preserved under unitary transfo, oscillator example. but what about in branching, check the fact that pointer go from x to coherent! but then what about the environment. So this seems to mean that yes, we shoudl be able to get a coherent superposition of system energy eigenstates... just because the laws gouverning coherence are lax. 
+Does that mean something for the energy conseravtion in branching thing?!
+-We are interested in the energy eigenstate split in brnaching. Does coherence matter in this? 
+-To answer: sean carroll's state thingy seems preparable. then why does my thought experiment make sense to me and says it doesn't lead to energy conservation? 
+
 \section{Creating a superposition of energies such that branching violates energy conservation}
 
 \textbf{Can we create a system that when measured results in worlds with different energies?} Sean Carroll argues yes, but does not explain how to achieve the necessary initial state $|\psi\rangle=(|\downarrow\rangle+|\downarrow\rangle)|e\rangle$. 
@@ -233,7 +239,39 @@ So clearly, coherence is not conserved under unitary operations.
 Another intersting note on coherence, is that it is tied to entanglement. 
 %https://physics.stackexchange.com/questions/204100/entanglement-and-coherence very cool post about that.
 
-
+A simple way to see that coherence (superpositions) is not the same as entanglement. 
+Take $|\psi\rangle=a|0\rangle+b|1\rangle$, then,
+\begin{equation}
+    \rho=\begin{pmatrix}
+        aa^* & ab^* \\
+        ba^*& bb^* \\
+    \end{pmatrix}
+\end{equation}
+Entangle it with $|0\rangle$ using a CNOT, leading to $|\psi\rangle=a|00\rangle+b|11\rangle$, tracing out over that ancilla qubit, we get,
+\begin{equation}
+    \tilde{\rho}=\begin{pmatrix}
+        aa^* & 0\\
+        0& bb^* \\
+    \end{pmatrix}
+\end{equation}
+consider now a simplified double slit experiment with observable $A=|1\rangle\langle 1|$. 
+The time evolution of the qubit will allow for interference like in the double slit. A detector y then clicks if it transitioned from $|0\rangle$ to $|1\rangle$.  
+\begin{equation}
+    |0\rangle\rightarrow \alpha_0(y)|0\rangle+\f_0(y)|1\rangle\\
+    |0\rangle\rightarrow \alpha_1(y)|0\rangle+\f_1(y)|1\rangle
+\end{equation}
+So with,
+\begin{equation}
+    \begin{pmatrix}
+        \alpha_0 & f_0\\
+        \alpha_1 & f_1
+    \end{pmatrix}
+\end{equation}
+The measurement results $\langle A\rangle=Tr[\rho U^{dagger}AU]$, is different in both cases,
+\begin{eqnarray}
+    Tr[\rho U^{dagger}AU] = |af_0(y)+bf_1(y)|^2\\
+    Tr[\tilde{\rho} U^{dagger}AU] = |af_0(y)|^2+|bf_1(y)|^2
+\end{eqnarray}
 
 %ressource theory = free operation
 %maximally mixed state + any fee operation = set of free states
@@ -349,5 +387,10 @@ GP is one possible RT, a less populare one
 Note that b attery is an already loaded term in RT of thermodynamics.
 
 The battery thing is pretty related to my pendulum battery example!
+
+coherence in the MW: Decoherence causes a loss of coherence in the pointer basis for the system. what about the environment? 
+Does coherence appear conserved in branches, but it not actually in the whole universe? is there something to say about a basis being meaningfull in a branch not meaning it is meaningfull in another branch?
+so we have decoherence in the pointer basis, does this somehow relate to decoherence in the energy eigenbasis? Could my study of the role of the energy eigenbasis in branching lead to saying something about how coherence in the pointer basis and coherence in the energy basis are related?
+
 
 \end{document}
