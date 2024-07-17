@@ -148,7 +148,7 @@ def gif_distrib_H_s_int(d1,H_list,result,ind_nb, name="temp"):
 
     return path
 
-def update_distrib_system_first_eig(frame,d1,result,eig_sta_int,eig_energ_int):
+def update_distrib_system_first_eig(frame,d1,result,eig_sta_int,eig_energ_int,max):
     # Clear previous plot
     plt.clf()
     rho_s=qt.ptrace(result.states[frame], [0])
@@ -162,7 +162,7 @@ def update_distrib_system_first_eig(frame,d1,result,eig_sta_int,eig_energ_int):
     plt.title(f"Plot of the system state in the eigenstates of H_int_s")
     plt.xlabel("Position")
     plt.ylabel("State weight")
-    plt.ylim(0, max(weight))
+    plt.ylim(0, max)
     plt.text(0.95, 0.95, f"Frame: {frame}", horizontalalignment='left', verticalalignment='top', transform=plt.gca().transAxes)
 
 def gif_distrib_system_first_eig(d1,H_list,result,ind_nb, name="temp"):
@@ -171,12 +171,12 @@ def gif_distrib_system_first_eig(d1,H_list,result,ind_nb, name="temp"):
 
     H_int_s=H_list[6]
     eig_energ_int,eig_sta_int = H_int_s.eigenstates()
-
+    max = 0.4
     # Create a figure
     fig = plt.figure(figsize=(10, 5))
 
     # Create the animation
-    ani = FuncAnimation(fig, update_distrib_system_first_eig, fargs=(d1,result,eig_sta_int,eig_energ_int), frames=ind_nb, interval=100)
+    ani = FuncAnimation(fig, update_distrib_system_first_eig, fargs=(d1,result,eig_sta_int,eig_energ_int,max), frames=ind_nb, interval=100)
 
     # Save the animation as a GIF
     path = f'../outputs/gifs/rho_s_first_eig_distrib_in_H_int_s_gif_{name}.gif'

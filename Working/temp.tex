@@ -12,15 +12,19 @@
 
 \begin{document}
 
+\section{Energy non-conservation in the MW}
 
-
-\section{Energy non-conservation in Sean Carroll's paper}
+\subsection{Energy non-conservation in Sean Carroll's paper}
 Sean carroll shows energy non-conservation by constructing a simple example, with $\mathcal{H}=\mathcal{H}_s\otimes\mathcal{H}_e$ and $\mathcal{H}_s=span\{|1\rangle,|2\rangle\}$ $\mathcal{H}_e=span\{|1\rangle,|2\rangle,|3\rangle\}$. The the Hamiltonian is constructed such that,
 \begin{align}
     |\psi(0)\rangle&=(\alpha|1\rangle+\beta|2\rangle)|0\rangle\\
     |\psi(1)\rangle&=\alpha|1\rangle|1\rangle+\beta|1\rangle|2\rangle
 \end{align}
 as well as $|1\rangle|1\rangle$ an eigenstate with energy $E_1$ and $|2\rangle|2\rangle$ an eigenstate with energy $E_2$.
+
+\textbf{The energy violation considered is that of the energy of the 2 branches v the energy of the world pre-branching: $\langle w_1|H|w_1\rangle=E_1$, $\langle w_2|H|w_2\rangle=E_2$, $\langle \psi(0)|H|\psi(0)\rangle=E$}
+
+\textbf{The state considered in this simple example is one where the resultingt pointer states are 2 different energy eigenstates. (Generalization of this is the block diagonal case where the 2 pointer states are 2 different non-overlapping distributions in the total energy eigenspace.)}
 
 \begin{comment}
 He suggests an experiment, with a particle in a magnetic field ndergoing spin interaction with another particle passing by. this second particle is then measured. the idea is to start p1 in a superposition of spins (and so energies, being in a magnetic field). by interaction with the passing p2 entangle them. measure p2 collapsing p1 and making the system change from 0 (avg) to 2 worlds of +-E the spin energy in B. 
@@ -42,8 +46,8 @@ An isolated system contains a radioactive isotope connected to a detector, closi
 \subsubsection{More formally}
 We take our radioactive atom as just a qubit in a superposition of state (we can prepare this via optics). Our pendulum at rest is $|\downarrow\rangle$ and excited is $|\uparrow\rangle$. The full battery is $|b_f\rangle$, the empty battery is $|b_e\rangle$. The environment outside of the box starts as $|e\rangle$.
 \begin{align}
-    |\psi(t_0)\rangle&=(|0\rangle+|1\rangle)|\downarrow\rangle|b_f\rangle|e\rangle\\
-    |\psi(t_1)\rangle&=(|0\rangle|\downarrow\rangle|b_f\rangle+|1\rangle|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_0)\rangle&=|\downarrow\rangle(|0\rangle+|1\rangle)|b_f\rangle|e\rangle\\
+    |\psi(t_1)\rangle&=(|\downarrow\rangle|0\rangle|b_f\rangle+|\uparrow\rangle|1\rangle|b_e\rangle)|e\rangle\\
     |\psi(t_1)\rangle&=(|\downarrow\rangle|b_f\rangle+|\uparrow\rangle|b_e\rangle)|e\rangle\\
     |\psi(t_2)\rangle&=|\downarrow\rangle|b_f\rangle|e_1\rangle+|\uparrow\rangle|b_e\rangle|e_2\rangle
 \end{align}
@@ -51,8 +55,8 @@ At $t_0$, the qubit is ready in a superposition and the battery+pendulum starts 
 
 \paragraph{Making it work.} Does adding an intermediary step allows for non-conservation?
 \begin{align}
-    |\psi(t_0)\rangle&=(|0\rangle+|1\rangle)|\downarrow\rangle|b_f\rangle|e\rangle\\
-    |\psi(t_1)\rangle&=(|0\rangle|\downarrow\rangle|b_f\rangle+|1\rangle|\uparrow\rangle|b_e\rangle)|e\rangle\\
+    |\psi(t_0)\rangle&=|\downarrow\rangle(|0\rangle+|1\rangle)|b_f\rangle|e\rangle\\
+    |\psi(t_1)\rangle&=(|\downarrow\rangle|0\rangle|b_f\rangle+|\uparrow\rangle|1\rangle|b_e\rangle)|e\rangle\\
     |\psi(t_1)\rangle&=(|\downarrow\rangle|b_f\rangle+|\uparrow\rangle|b_e\rangle)|e\rangle\\
     |\psi(t_2')\rangle&=(|\downarrow\rangle+|\uparrow\rangle)|e'\rangle\\
     |\psi(t_3')\rangle&=|\downarrow\rangle|e_1'\rangle+|\uparrow\rangle|e_2'\rangle
@@ -61,24 +65,245 @@ We change things at $t_2'$ asking that the battery decoheres without branching t
 
 For this to work, we need $e^{-itH_1}|b_f\rangle|e\rangle\approx e^{-itH_2}|b_e\rangle|e\rangle$, for $t\geq t_2$ even thought $\langle b_f|b_e\rangle\approx0$. Why is that a tall order? $|b_f\rangle$ and $|b_e\rangle$ are macroscopically different objects that we ask evolve to close to the same object at a later time.
 
-\subsection{Next step/solution}
+\subsubsection{What unitary would allow for this?}
 
-\begin{itemize}
-    \item Working only to creat a tiny energy difference requiring a tiny battery, could makes step $t_2'$ a lot less impossible.
-    \item Show that system size/energy difference acts as a protection to energy non-conservation
+\begin{comment}
+For simplicity, we can decompose the evoltion into bits and consider a different unitary for each, justifying that with the fact that the energies involved are higher for the first bits (faster frequencies), so we can neglect the second parts of the evolution at the beginning.
+
+The part of the evolution creating the energy superposition woudl be interesting to find. But here we look at the potential for evolution that would allow us to re-factorize the (enlarged) environment thus getting the sean carroll state.
+
+Starting with $|e_1'(0)\rangle=|0\rangle|b_f\rangle||e_1\rangle$ and $|e_2'(0)\rangle=|1\rangle|b_e\rangle||e_2\rangle$, we want an evolution that gives us approximately $\langle e_2'(T)||e_1'(T)\rangle\approx 1$. We consider $|0\rangle|b_e\rangle=|b_e'\rangle$ $|1\rangle|b_f\rangle=|b_f'\rangle$. Can we use the environment to act on this with a CNOT? Our environment is already in 2 states, $|e_1\rangle$ and $|e_2\rangle$, but considering a protected part of it that didn't vary $|e_1\rangle=|e_p\rangle|e_1''\rangle$ and $|e_2\rangle=|e_p\rangle|e_2''\rangle$. We can use $|e_p\rangle$ to apply a CNOT. 
+
+
+
+    See this for CNOT unitary 
+    https://quantumcomputing.stackexchange.com/questions/15403/what-hamiltonians-generate-hadamard-and-cnot-matrices
     
+With the control on the left, a CNOT gate acts as,
+\begin{eqnarray}
+    |00\rangle\rightarrow|00\rangle\\
+    |01\rangle\rightarrow|01\rangle\\
+    |10\rangle\rightarrow|11\rangle\\
+    |11\rangle\rightarrow|10\rangle
+\end{eqnarray}
+with matrix,
+\begin{eqnarray}
+    CNOT = \begin{pmatrix}
+        1 & 0 & 0 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 0 & 0 & 1\\
+        0 & 0 & 1 & 0
+    \end{pmatrix}
+\end{eqnarray}
+So,
+\begin{eqnarray}
+    CNOT(|\rangle)
+\end{eqnarray}
+\end{comment}
+
+We need a unitary that make 2 different states states converge to the same state at least approximately and for a certain time. 
+
+The inner product of 2 states does not change in time,
+\begin{eqnarray}
+    U(t)|\psi_1(0)\rangle=|\psi_1(t)\rangle\\
+    U(t)|\psi_2(0)\rangle=|\psi_2(t)\rangle\\
+\end{eqnarray}
+leads to,
+\begin{eqnarray}
+    \langle\psi_1(t)|\psi_2(t)\rangle&=\langle\psi_1(0)|U^{\dagger}U|\psi_2(0)\rangle\\
+    &=\langle\psi_1(0)|\psi_2(0)\rangle
+\end{eqnarray}
+
+So it is impossible exactly. But we could consider $|e_1'\rangle=a_1|e''\rangle+b_1|e_{1,leftover}\rangle$ and $|e_2'\rangle=a_2|e''\rangle+b_2|e_{2,leftover}\rangle$ and try to minimize the $b_i$'s. 
+We can use the fact that $|e_1'(0)\rangle$ and $|e_2'(0)\rangle$ are orthogonal, admn thus stay orthogonal for all $t$. 
+Follow up on that... see notebook.
+
+\subsection*{Eneergy conservation in the ACL model}
+
+
+\subsubsection{Block diagonal form}
+
+starts as superposition of eigenstate 0.3*4 and 0.7*8, meaning system energy of 6.8. (not total energy.) ends up as a branch with 4 and a branche with 8. 
+We do see the system energ start at 6.8 for the frst schmidt and go up to 8. 
+The second schmidt also starts there (copycat phenomena I think) and lowers to 4.
+We see that the total energy is mainly determined by the system energy.
+
+We consider a Hamiltonian in the block diagonal basis, 
+\begin{equation}
+    H=\sum_{i}|i\rangle\langle i|\otimes H^{(i)}_e
+\end{equation}
+where the initial state evolves into two worlds,
+\begin{align}
+    |\psi(0)\rangle &=(\sqrt{p_1}|1\rangle+\sqrt{p_2}|2\rangle)|e\rangle\\
+    |\psi(t_{dec})\rangle&=\sqrt{p_1}|1\rangle e^{-it_{dec}H^{(1)}_e}|e\rangle+\sqrt{p_2}|2\rangle)e^{-it_{dec}H^{(2)}_e}|e\rangle=\sqrt{p_1}|w_1\rangle+\sqrt{p_2}|w_2\rangle
+\end{align}
+Then, $E=\langle\psi(t)|H|\psi(t)\rangle$ is conserved by the commutation of $U(t)$ and $H$. But from the perspective of both worlds, it is not,
+\begin{align}
+    \langle w_1|H|w_1\rangle&=\langle e|e^{+it_{dec}H^{(1)}_e}H^{(1)}_ee^{-it_{dec}H^{(1)}_e}|e\rangle=\mathcal{E}_1\\
+    \langle w_2|H|w_2\rangle&=\langle e|e^{+it_{dec}H^{(2)}_e}H^{(1)}_ee^{-it_{dec}H^{(2)}_e}|e\rangle=\mathcal{E}_2\\
+        \mathcal{E}&=p_1\mathcal{E}_1+p_2\mathcal{E}_2
+\label{eq:ener_non_cons}
+\end{align}
+with $\mathcal{E}_i=\langle e|H^{(i)}_e|e\rangle$. $\mathcal{E}_i$ can be different from $\mathca{E}$, although there may be some counting arguments that show that it is likely to be $\mathca{E}$. 
+
+Quite generally, with perfect decoherence, $|w_1\rangle$ and $|w_2\rangle$ have expression in the totale energy eigenbasis $\{E_i\}$,
+\begin{eqnarray}
+    |w_1\rangle =\sum_{i\in S_1}w^{(1)}_i|E_i\rangle\\
+    |w_2\rangle =\sum_{i\in S_2}w^{(2)}_i|E_i\rangle
+\end{eqnarray}
+with $S_1$ and $S_2$ sets of indices and $S_1\bigcap S_2=0$. Then, we can see $|w^{(1)}(i)|^2=p_{w1}(i)$ and $|w^{(2)}(i)|^2=p_{w2}(i)$ as 2 non-overlapping distributions over the total eigneenergies, which determine the energy of the 2 worlds.
+\begin{eqnarray}
+    E_1=\sum_ip_{w1}(i)E_i\\
+    E_2=\sum_ip_{w2}(i)E_i
+\end{eqnarray}
+
+Since in the bloc diagonal form $E_i\in S_1$ and $E_i\in S_2$ are fully determined by $H_e^{(1)}$ and $H_e^{(2)}$ respectively, we can choose the energies $E_1$ and $E_2$ completely arbitrarly, by constructing the Hamiltonian.
+
+For example, here we start with a Hamiltonian and choose $E_i\in S_1$ and $E_i\in S_2$ by labeling. We can select the spectrum of each blocks. 
+Then, considering $|e\rangle\sum^{n}_i|i\rangle$, we get non-conservation. 
+We see this by ordering the energy eigenstates by eigenvalue block-diagonalizing by making the n first being the eigenstates of the first block, and the other the ones of the second block. 
+
+\begin{align}
+|E_1\rangle&=|1\rangle|1\rangle\\
+\cdots\\
+|E_n\rangle&=|1\rangle|n\rangle\\
+|E_{n+1}\rangle&=|2\rangle|1\rangle\\
+\cdots\\
+|E_{2n}\rangle&=|2\rangle|n\rangle
+\end{align}
+Then, $|e\rangle=\sum_i|i\rangle$, means that $\mathcal{E}_1=\frac{1}{n}
+\sum^{n}_{i=0}E_i$ and $\mathcal{E}_2=\frac{1}{n}\sum^{2n}_{i=n+1}E_i$, with $\mathcal{E}_2>\mathcal{E}_1$.
+
+\paragraph*{We now work with $H$ as a GOE.}
+For a random labeling, the spectra of each blocks will be that of a wigner semi-circle, with variance is $\nu=\frac{R^2}{4}$. With $R=2$ for a matrix with gaussian distribution $N(0,1)$, so $\nu=1$.
+We define $E_i$ a random variable taken from the wigner semi-circle and take for simplicity $|e\rangle=\sum^{n}_i\frac{1}{\sqrt{n}}|i\rangle$. 
+We can then define the random variable of the energy of a world with this chosen environment,
+\begin{eqnarray}
+    E_{world}=\sum_i^n\frac{1}{n}E_i
+\end{eqnarray}
+Then, the energy of the world is also just a random variable sampled from the same wigner semi-circle.
+
+Central limit theorem! 
+
+Let the spectra of $H^{(1)}_e$ and $H^{(2)}_e$ both be made up of $n$ samples of a wigner semi-circle distribution with $\mu=0$ and $\sigma=1$ (ie corresponding to GOE matrices of size $n$). These spectra are $E_1, ..., E_n$ and $E_1', ..., E_n'$.
+Then, we define another random variable, 
+\begin{eqnarray}
+    E_{world}=\sum_i^n\frac{1}{n}E_i
+\end{eqnarray}
+Which is a uniform sample average of random variable $E_i$. 
+We can also define the difference in energy between the 2 worlds, 
+\begin{eqnarray}
+    E_{world-diff}=\sum_i^n\frac{1}{n}(E_i-E_i')
+\end{eqnarray}
+The distribution for $E_i'$ is symmetric and the same as $E_i$, meaning we can re-write this as,
+\begin{eqnarray}
+    E_{world-diff}=\sum_i^{2n}\frac{1}{n}(E_i)
+\end{eqnarray}
+
+Then, by the central limit theorem $\mathbbm{E}(E_{world-diff})$ in the limit of large $n$ is a random variable sampled from the gaussian distribution with $\mu_{world-energy}=0$ and $\sigma_{world-energy}=\frac{\sigma}{\sqrt{2n}}$.
+Thus we get that for a randomly selected labeling that gives us a block diagonal form + a uniformly distributed environment state, we get branching with difference in energy between the 2 branches protectedby the environemnt size. Specifically with mean 0 and variance $\sigma^2=\nu=\frac{1}{2n}$. The factor of $\frac{1}{2}$ came from the fact that we are comparing 2 branches.
+
+\subsubsection{General ACL}
+
+We start the system in a superposition of coherent states. Here the environemnt plays a bigger role where for the second schmidt state it grows, adding to the total energy of the world. 
+
+\subsection{So what is happening?}
+
+One might think this is a transfere of energy between worlds, but I dont think it is.
+The total energy of a world does vary, but that is because the Schmidt states do not evolve unitarly, they evolve to a pointer state and then they do. During that time, they change what part of the state belongs to which Schmidt states until the correct pointer split has occurded. 
+
+\subsubsection{What about energy conservation in branching?}
+
+In the block diagonal we see a clear energy violation in branching. that is expected as our hamiltonian structure essentially has the system energy as a multiplicator. 
+
+In the coherent state superposition we get energy conservation (approximately.) There is a way in which energy conservation is protected there.
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/basic_deco_pe.png}
+    \label{fig:1}
+    \caption{State of Schmidt 1 pre-decoherence}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/basic_deco_post.png}
+    \label{fig:2}
+    \caption{State of Schmidt 1 post-decoherence}
+  \end{subfigure}
+  \caption{}
+  \label{fig:dist_EI_dep}
+  \caption{Freeze frame on the distribution of a Schmidt state in the energy eigenbasis of $H_I$ before and after decoherence. We see the distribution converge to that of a pointer state.}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Figures/energy_worlds_basic_deco.png}
+    \caption{Energy of world 1 and 2 under basic block diagonal decoherence}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/ACL_deco_pre.png}
+    \label{fig:1}
+    \caption{State of Schmidt 1 pre-decoherence}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/ACL_deco_post.png}
+    \label{fig:2}
+    \caption{State of Schmidt 1 post-decoherence}
+  \end{subfigure}
+  \caption{}
+  \label{fig:dist_EI_dep}
+  \caption{Freeze frame on the distribution of a Schmidt state in the energy eigenbasis of $H_I$ before and after decoherence. We see the distribution converge to that of a pointer state.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Figures/energy_worlds_general_ACL.png}
+    \caption{Energy of world 1 and 2 under more general ACL deocoherence}
+    \label{fig:enter-label}
+\end{figure}
+
+does interteaction strenghts between system and hamiltonian dictate if energy is conserved or not? 
+Does te size of the environemnt dictte the precision to which the energy is conserved?
+
+
+\section{Next step/solution}
+
+Basic questions to answer,
+\begin{itemize}
+    \item what initial state does Sean carroll start with and what hamiltonian is necessary to create that state. DONE
+    \item IS coherence catalytic? 
+    \item is cohernece conserved under a unitary operation? DONE
+    \item is coherence conserved in branches? DONE
+    \item How can I reconcil sean Carroll's energy violation with my thought experiment 
+    \item How can I reconcile my thought experiment with the BD case.
+    \item Figure out the Unitary necessary to get t0 to t1 in my thought experiment to check its possible.
+    \item Could I create energy non-conservation in branching with a coherent state superposition? How much fine tunning is requiered?
+    \item I can think of 2 ways in which you get energy violation: superposition of energy states of the system such that the energy difference of the system is not corrected during the measure./superposition of states such that the 2 resulting pointer states result in distributions in the total energy eigenstates that creates a violation. Is there a difference?
 \end{itemize}
 
-in notes it is like this:
-- Project 2: Energy conservation: I) what initial state does Sean carroll start with and what hamiltonian is necessary to create that state. ii) Study the James cunning model in creating energy superpositions. Is energy conservation respected? Can that state indeed be created? iii) Learn about resource theory of quantum thermodynamics, see if there is a necessary ressource in creating a superposition of energy levels. iv) read the paper that says that you can’t create energy superpositions. V) think about tiny battery argument and how size of the system intervenes. Show that system size acts as protector for it not happening. Vi) What about value of the energy difference? Can you find a law that relates energy difference of the superposition and level of fine tuning required? 
+Solutions to explore,
+\begin{itemize}
+    \item The issue with the battery pendulum may be resolvable by considering a small battery. Show that system size/energy difference acts as a protection to energy non-conservation. Does the energy gap size matter in the amount of fine tunning requiered to violate energy conservation.
+    \item Make clear the way that energy conservation is violated in the block diagonal case. 
+    \item explore numericallhy how energy conservation is violated in more general ACL cases. Do we see energy exchange between the branches until decoherence is finished? how
+    \item Explore how experimentaly energy superpositions are achieved: Jaynes Cummings model
+    \item Learn about resource theory of quantum thermodynamics, see if there is a necessary ressource in creating a superposition of energy levels.
+    \item Learn about coherence the "RT of superpositions" and see if it is a useful framework to study energy conservation in branching.
+    \item Devellop thought: coherence not preserved under unitary (HO example). It is not conserved in branching (see ACL eig to coherent state evol.). Check this fact when considering the environment. Does that mean that coherence can be gotten out of branching? could i get energy sperpositions by decoherence? 
+    \item dev though: coherence in energy eigenstates is special. And it might be important for the energy violation idea... it probably clearly does in the BD case? can we generalize to ACL?
+    \item 
+\end{itemize}
 
-
-
-thought to devellope: 
--coherence is not preserved under unitary transfo, oscillator example. but what about in branching, check the fact that pointer go from x to coherent! but then what about the environment. So this seems to mean that yes, we shoudl be able to get a coherent superposition of system energy eigenstates... just because the laws gouverning coherence are lax. 
-Does that mean something for the energy conseravtion in branching thing?!
--We are interested in the energy eigenstate split in brnaching. Does coherence matter in this? 
--To answer: sean carroll's state thingy seems preparable. then why does my thought experiment make sense to me and says it doesn't lead to energy conservation? 
+Questions for Andreas and Zoe:
+\begin{itemize}
+    \item Is it a decenty approximation to see Schmidt states evolving non-unitarly, until they become pointer states after-which they do. 
+    \item Tried to obtain the result from Zurek where he gets coherence from decoherence. I do get that a position eigenstate does become a superposition of pointers, the main one a coherent state. But it oscillates back and forth... This feels like a behavior to explain...
+\end{itemize}
 
 \section{Creating a superposition of energies such that branching violates energy conservation}
 
@@ -233,7 +458,34 @@ Note that the ground state $|0\rangle $ has no coherence, but that a coherent st
 \begin{eqnarray}
     D(\alpha)=exp(\alpha a^{\dagger}-\alpha a)
 \end{eqnarray}
-So clearly, coherence is not conserved under unitary operations.
+
+\textbf{So clearly, coherence is not conserved under unitary operations.}
+
+What about when undergoing branching? Is coherence conserved between the initial state and the branch? 
+No, as counter example we have the case where coherence is created by decoherence, when we initialize the ACL state and branches end up-having coherent states. 
+
+As detailed in "Coherent states from decoherence"
+
+TODO use the ACL model to obtain the gain of cohrence from decoherence of Zurek. in the weak coupling limit we should get decoherent states from.
+
+We see this in the following 2 frames of the 
+%Name of the gif rho_s_first_eig_distrib_in_H_int_s_gif_strong_interaction_limit
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/pre_deco_strong_int_coherent.png}
+    \label{fig:1}
+    \caption{System state in the position basis initialized as a coherent state before decoherence happens} 
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\linewidth}
+    \includegraphics[width=\linewidth]{Figures/post_deco_strong_int_not_coherent.png}
+    \label{fig:2}
+    \caption{System state in the position basis after decoherence, where it has become near a position eigenstate.}
+  \end{subfigure}
+  \label{fig:dist_EI_dep}
+  \caption{}
+\end{figure}
+In the following we also look at obtaining coherence from decoherence. Note, we actually obtain an oscilation between coherent states and position eigenstates... how can we explain this?
 
 \subsubsection{Coherence is non-classical + is related to entanglement}
 Another intersting note on coherence, is that it is tied to entanglement. 
@@ -347,6 +599,8 @@ If we could have a system in a pointer state, make its Hamiltonian temporarily l
 
 
 \section*{This week's work}
+
+I have many opened tabs: see Next steps list and talk about each of them....
 
 \begin{itemize}
     \item Figure out the general consensus on if coherence is catalytic. To do so, re-read the 2 papers on catalytic coherence...
