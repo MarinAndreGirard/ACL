@@ -3,7 +3,6 @@ import qutip as qt
 import math
 import matplotlib.pyplot as plt
 import create_hamiltonian as ch
-import create_hamiltonian as ch
 import create_state as cs
 import sys
 import os
@@ -426,3 +425,66 @@ def time_evo_new_system_eig(d1=10,d2=200,E_s=1, E_s2=0, E_int_s=0.03, E_int_e=1,
     qt.qsave(H_list, H_list_file_path)
     
     return result, tlist, H_list, state_list, info_list
+
+def time_evo_rd_ACL(d1=10,d2=200,a_s=1,a_is=1,a_ie=1,a_i=1,a_e=1, tmax= 10, ind_nb = 100,log=0,file_name="simulation_results.txt"):
+    #Potentially to add. possibility to take state info?
+
+    H_list = ch.create_H_rd(d1,d2,a_s,a_is,a_ie,a_i,a_e)
+
+    H_s1=H_list[5] #return d, H_total, H_s, H_int_no_sep,H_e,H_s1,H_int_sep_1,H_int_sep_2,H_e1
+    H_e1=H_list[8]
+    s_eigenenergies,s_eigenstates=H_s1.eigenstates()
+    e_eigenenergies,e_eigenstates=H_e1.eigenstates()
+    ket_list = [qt.basis(d1, i) for i in range(d1)] #Define the basis states of the system
+
+    state_s = s_eigenstates[round(d1/2)]
+    state_e = e_eigenstates[round(d2/2)]
+    state = qt.tensor(state_s, state_e)
+    state = state.full()
+    state = qt.Qobj(state)
+    tlist = np.linspace(0, tmax, ind_nb) # Linear spacing
+    if log == 0:
+        tlist = np.linspace(0, tmax, ind_nb)  # Linear spacing
+    elif log == 1:
+        tlist = np.logspace(np.log10(1), np.log10(tmax+1), ind_nb)-1  # Logarithmic spacing
+    else:
+        raise ValueError("Invalid value for 'log'. It should be either 0 or 1.")
+    info_list=[d1,d2,a_s,a_is,a_ie,a_i,a_e, tmax, ind_nb,log,tlist] #TODO update info_list and make relevant changes to other functions
+    
+    # Perform time evolution of the combined system
+    result = qt.mesolve(qt.Qobj(H_list[1]), state, tlist, [], [])
+    
+    # Save outputs in a .txt file
+    outputs_dir = "outputs/simulation_results"
+    if not os.path.exists(outputs_dir):
+        os.makedirs(outputs_dir)
+    
+    # Save parameters in a .txt file
+    params_file_path = os.path.join(outputs_dir, "params_" + file_name)
+    with open(params_file_path, "w") as f:
+        d1,d2,a_s,a_is,a_ie,a_i,a_e, tmax, ind_nb,log
+        f.write(f"d1 === {d1}\n")
+        f.write(f"d2 === {d2}\n")
+        f.write(f"a_s === {a_s}\n")
+        f.write(f"a_is === {a_is}\n")
+        f.write(f"a_ie === {a_ie}\n")
+        f.write(f"a_i === {a_i}\n")
+        f.write(f"a_e === {a_e}\n")
+        f.write(f"tmax === {tmax}\n")
+        f.write(f"ind_nb === {ind_nb}\n")
+        f.write(f"log === {log}\n")
+    
+    # Save parameters in a .txt file
+    tlist_file_path = os.path.join(outputs_dir, "tlist_" + file_name)
+    np.save(tlist_file_path, tlist)
+    
+    # Save result in a .txt file
+    result_file_path = os.path.join(outputs_dir, "result_" + file_name)
+    qt.qsave(result, result_file_path)
+    
+    # Save H_list in a .txt file
+    
+    H_list_file_path = os.path.join(outputs_dir, "H_list_" + file_name)
+    qt.qsave(H_list, H_list_file_path)
+    
+    return result, tlist, H_list, state, info_list

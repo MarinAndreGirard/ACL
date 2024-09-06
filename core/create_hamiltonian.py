@@ -149,7 +149,35 @@ def create_H_new(d1,d2, E_s, E_s2, E_int_s, E_int_e,E_int_s2,E_int_e2,E_e, E_e2)
     # Define the total Hamiltonian
     H_total = H_s + H_int + H_e
     
-    
-
     return d, H_total, H_s, H_int, H_e, H_s_self, H_int_s, H_int_e, H_e_self
 
+def create_H_rd(d1,d2,a_s,a_is,a_ie,a_i,a_e):
+
+    d = d1*d2  # Total Hilbert space dimension
+
+    #Getting the creation and anihilation operators.
+    
+    #making H_s
+
+#    diagonal_elements = np.arange(0, d1) * E_s
+#    H_s_self = qt.Qobj(np.diag(diagonal_elements))
+
+    H_s1=qt.rand_herm(d1,1)
+    H_s = qt.tensor(H_s1, qt.qeye(d2)) # Extend to full Hilbert space    
+    
+    #Making H_int_sep
+    H_int_sep_1=a_is*qt.rand_herm(d1,1)
+    H_int_sep_2=a_ie*qt.rand_herm(d2,1)
+    H_int_sep = qt.tensor(H_int_sep_1, H_int_sep_2)
+
+    #Making H_int_no_sep
+    H_int_no_sep = qt.rand_herm(d,1)
+    
+    #Making H_e
+    H_e1=qt.rand_herm(d2,1)
+    H_e = qt.tensor(qt.qeye(d1),H_e1)
+     
+    # Define the total Hamiltonian
+    H_total = a_s*H_s.full() + H_int_sep.full()+a_i*H_int_no_sep.full() + a_e*H_e.full()
+
+    return d, H_total, H_s, H_int_no_sep,H_e,H_s1,H_int_sep_1,H_int_sep_2,H_e1
