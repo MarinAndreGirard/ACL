@@ -431,13 +431,13 @@ def time_evo_rd_ACL(d1=10,d2=200,a_s=1,a_is=1,a_ie=1,a_i=1,a_e=1, tmax= 10, ind_
 
     H_list = ch.create_H_rd(d1,d2,a_s,a_is,a_ie,a_i,a_e)
 
-    H_s1=H_list[5] #return d, H_total, H_s, H_int_no_sep,H_e,H_s1,H_int_sep_1,H_int_sep_2,H_e1
+    H_s1=H_list[6] #return d, H_total, H_s, H_int_no_sep,H_e,H_s1,H_int_sep_1,H_int_sep_2,H_e1
     H_e1=H_list[8]
     s_eigenenergies,s_eigenstates=H_s1.eigenstates()
     e_eigenenergies,e_eigenstates=H_e1.eigenstates()
     ket_list = [qt.basis(d1, i) for i in range(d1)] #Define the basis states of the system
 
-    state_s = s_eigenstates[round(d1/2)]
+    state_s = 1/np.sqrt(2)*(s_eigenstates[round(d1/4)]+s_eigenstates[round(d1/3)])
     state_e = e_eigenstates[round(d2/2)]
     state = qt.tensor(state_s, state_e)
     state = state.full()
