@@ -548,3 +548,259 @@ def plot_function_simple(file_name_local,file_suffixes=[1,2],n_e=8):
         pickle.dump(plt.gcf(), f)  # Save the current figure (gcf)
     plt.show()
 
+
+
+ar=np.array
+kr=np.kron
+idn=np.identity
+sx=ar([[0,1],[1,0]])
+sy=ar([[0,-1j],[1j,0]])
+sz=ar([[1,0],[0,-1]])
+id2=ar([[1,0],[0,1]])
+
+def random_hermitian_matrix(size):
+    real_part = np.random.randn(size, size)
+    imag_part = np.random.randn(size, size) * 1j
+    A = real_part + imag_part
+    return (A + A.conj().T) / 2  # Make it Hermitian
+
+def create_H_not_2_local(n):
+    size=2**n
+    hermitian_matrix = random_hermitian_matrix(size)
+    
+    # Ensure the diagonal is real
+    #np.fill_diagonal(hermitian_matrix, np.random.rand(size))
+    
+    eigenvalues = np.linalg.eigvals(hermitian_matrix)
+    max_eigenvalue = np.max(np.abs(eigenvalues))  # Largest eigenvalue by magnitude
+    return hermitian_matrix / max_eigenvalue
+
+
+def create_rando_n_matrix(n):
+    #create a compelx random matrix of size n
+    rd = np.random.rand(n, n)
+    return rd
+
+def create_2_local(n):
+    r1=create_rando_n_matrix(n)
+    r2=create_rando_n_matrix(n)
+    r3=create_rando_n_matrix(n)
+    r4=create_rando_n_matrix(n)
+    r5=create_rando_n_matrix(n)
+    r6=create_rando_n_matrix(n)
+    r7=create_rando_n_matrix(n)
+    #we then interpret the off diagonal terms of these random matrices as the coupling terms
+    #Using r1 we define the zz terms
+    H=np.zeros((2**(n), 2**(n)), dtype=np.complex64)
+    paulis_list=[sx,sy,sz]
+    r_list=[r1,r2,r3]
+    for i in range(n):
+        for j in range(n):
+            if j>i:
+                for pauli, r in zip(paulis_list, r_list):
+                    s1=kr(kr(idn(2**i),pauli),idn(2**(n-i-1)))
+                    s2=kr(kr(idn(2**j),pauli),idn(2**(n-j-1)))
+                    H+=r[i,j]*s1@s2
+                s1=kr(kr(idn(2**i),sz),idn(2**(n-i-1)))
+                s2=kr(kr(idn(2**j),sx),idn(2**(n-j-1)))
+                H+=r4[i,j]*s1@s2
+                s1=kr(kr(idn(2**i),sx),idn(2**(n-i-1)))
+                s2=kr(kr(idn(2**j),sz),idn(2**(n-j-1)))
+                H+=r5[i,j]*s1@s2
+                s1=kr(kr(idn(2**i),sz),idn(2**(n-i-1)))
+                s2=kr(kr(idn(2**j),sy),idn(2**(n-j-1)))
+                H+=r6[i,j]*s1@s2
+                s1=kr(kr(idn(2**i),sy),idn(2**(n-i-1)))
+                s2=kr(kr(idn(2**j),sz),idn(2**(n-j-1)))
+                H+=r7[i,j]*s1@s2
+
+    eigenvalues = np.linalg.eigvals(H)
+    max_eigenvalue = np.max(np.abs(eigenvalues))  # Largest eigenvalue by magnitude
+    return H / max_eigenvalue
+
+def create_1_local(n):
+    #r1 an array of random complex numbers of size n
+    r1 = np.random.rand(n)
+    r2 = np.random.rand(n)
+    r3 = np.random.rand(n)
+
+    H=np.zeros((2**(n), 2**(n)), dtype=np.complex64)
+    paulis_list=[sx,sy,sz]
+    r_list=[r1,r2,r3]
+    for i in range(n):
+        for pauli, r in zip(paulis_list, r_list):
+            s1=kr(kr(idn(2**i),pauli),idn(2**(n-i-1)))
+            H+=r[i]*s1
+    eigenvalues = np.linalg.eigvals(H)
+    max_eigenvalue = np.max(np.abs(eigenvalues))  # Largest eigenvalue by magnitude
+    return H / max_eigenvalue
+
+def create_H_2_local(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=qt.qeye(2**(n-1))
+    I_s=qt.qeye(2)
+    if system_mode==0:
+        H_s = qt.Qobj(sz)
+    else: 
+        H_s = qt.Qobj(sy)
+    
+    H_s = a1*qt.tensor(H_s,I_e)
+
+    #H_e=create_He_i_2_local(n-1)
+    H_e=create_2_local(n-1) #For the environment, we use a 2-local Hamiltonian. thats the whole point.
+    H_e=qt.Qobj(H_e)
+    H_e = a2*qt.tensor(I_s,H_e)
+    
+    H_ei=create_1_local(n-1) # For the interaction, the environment term is made of 1-local terms since we want HI to be 2-local.
+    H_ei=qt.Qobj(H_ei)
+    
+    if interaction_mode==0:
+        H_I=a3*qt.tensor(qt.Qobj(sz),H_ei)
+    else:
+        H_I=a3*qt.tensor(qt.Qobj(id),H_ei)
+    
+    H = H_s+H_e+H_I
+
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+
+
+
+def create_H_non_local(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=qt.qeye(2**(n-1))
+    I_s=qt.qeye(2)
+
+    if system_mode==0:
+        H_s = qt.Qobj(sz)
+    else: 
+        H_s = qt.Qobj(sy)
+    
+    H_s = a1*qt.tensor(H_s,I_e)
+
+    H_e=create_H_not_2_local(n-1)
+    H_e=qt.Qobj(H_e)
+    H_e = a2*qt.tensor(I_s,H_e)
+    
+
+    H_ei=create_H_not_2_local(n-1)
+    H_ei=qt.Qobj(H_ei)
+    if interaction_mode==0:
+        H_I=a3*qt.tensor(qt.Qobj(sz),H_ei)
+    else:
+        H_I=a3*qt.tensor(qt.Qobj(id),H_ei)
+    
+    H = H_s+H_e+H_I
+    
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+
+
+def create_state_2_local(n_e):
+    w=0.3
+    # Create the superposition state for the system
+    system_superposition_state = (np.sqrt(w)*qt.basis(2, 0) + np.sqrt(1-w)*qt.basis(2, 1)).unit()
+    random_state = qt.rand_ket(2**n_e)
+    state = qt.tensor(system_superposition_state, random_state)
+    return state
+
+def create_e_state(n_e):
+    random_state = qt.rand_ket(2**n_e)
+    return random_state
+
+def create_H_non_local_H0(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=a1*qt.qeye(2**(n-1))
+
+    H_e=create_H_not_2_local(n-1)
+    H_e=a3*qt.Qobj(H_e)
+    
+    H_ei=create_H_not_2_local(n-1)
+    H_ei=a3*qt.Qobj(H_ei)
+    
+    H = I_e+H_ei+H_e
+    
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+def create_H_non_local_H1(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=a1*qt.qeye(2**(n-1))
+
+    H_e=create_H_not_2_local(n-1)
+    H_e=a3*qt.Qobj(H_e)
+    
+    H_ei=create_H_not_2_local(n-1)
+    H_ei=a3*qt.Qobj(H_ei)
+    
+    H = -I_e-H_ei+H_e
+    
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+
+def create_H_2_local_H0(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=qt.qeye(2**(n-1))    
+
+    #H_e=create_He_i_2_local(n-1)
+    H_e=a1*create_2_local(n-1) #For the environment, we use a 2-local Hamiltonian. thats the whole point.
+    H_e=a2*qt.Qobj(H_e)
+    
+    H_ei=create_1_local(n-1) # For the interaction, the environment term is made of 1-local terms since we want HI to be 2-local.
+    H_ei=a3*qt.Qobj(H_ei)
+    
+    H = I_e+H_ei+H_e
+
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+
+def create_H_2_local_H1(n,a1=0.5,a2=0.75,a3=0.2,system_mode=0,interaction_mode=0):
+    I_e=qt.qeye(2**(n-1))    
+
+    #H_e=create_He_i_2_local(n-1)
+    H_e=a1*create_2_local(n-1) #For the environment, we use a 2-local Hamiltonian. thats the whole point.
+    H_e=a2*qt.Qobj(H_e)
+    
+    H_ei=create_1_local(n-1) # For the interaction, the environment term is made of 1-local terms since we want HI to be 2-local.
+    H_ei=a3*qt.Qobj(H_ei)
+    
+    H = -I_e-H_ei+H_e
+    
+    eigenvalues = H.eigenenergies()
+    max_eigenvalue = max(eigenvalues)
+    H=H/max_eigenvalue
+    
+    return H
+
+# Function to calculate and plot eigenvalue spectrum for H^n
+def plot_spectrum_powers(H1,H2, max_power=5):
+    fig, axes = plt.subplots(1, max_power, figsize=(15, 4))
+
+    for n in range(1, max_power + 1):
+        # Compute H^n
+        H_n = (H1@H2)**n
+
+        # Get the eigenvalues
+        eigenenergies, _ = H_n.eigenstates()
+
+        # Plot the spectrum
+        ax = axes[n-1]
+        ax.hist(eigenenergies, bins=50, alpha=0.7, color='b')
+        ax.set_title(f"Spectrum of H^{n}")
+        ax.set_xlabel("Energy")
+        ax.set_ylabel("Frequency")
+
+    plt.tight_layout()
+    plt.show()
+
+
+
